@@ -1,6 +1,7 @@
 const path = require("path");
 
 module.exports = {
+  mode: "production",
   entry: "./src/index.js",
   output: {
     filename: "main.js",
@@ -8,6 +9,9 @@ module.exports = {
   },
   devtool: "eval-source-map",
   resolve: {
+    alias: {
+      Mesh: path.resolve(__dirname, "src/mesh/")
+    },
     extensions: [".js", ".jsx"]
   },
   module: {
