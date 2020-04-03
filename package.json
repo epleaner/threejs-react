@@ -1,11 +1,28 @@
 {
   "dependencies": {
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-three-fiber": "^4.0.25",
     "three": "^0.115.0"
   },
   "scripts": {
-    "serve": "serve"
+    "start": "webpack-dev-server --open --hot",
+    "build": "webpack --config webpack.config.js"
   },
   "devDependencies": {
-    "serve": "^11.3.0"
-  }
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.0",
+    "@babel/preset-react": "^7.9.4",
+    "babel-loader": "^8.1.0",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3"
+  },
+  "name": "threejs-exploration",
+  "version": "1.0.0",
+  "description": "Exploring three.js with react-three-fiber",
+  "repository": "https://github.com/epleaner/threejs-react.git",
+  "author": "Eli <eli.i.pleaner@gmail.com>",
+  "license": "MIT",
+  "private": true
 }
