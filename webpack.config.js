@@ -10,7 +10,8 @@ module.exports = {
   devtool: "eval-source-map",
   resolve: {
     alias: {
-      Mesh: path.resolve(__dirname, "src/mesh/")
+      Mesh: path.resolve(__dirname, "src/mesh/"),
+      Scene: path.resolve(__dirname, "src/scene/")
     },
     extensions: [".js", ".jsx"]
   },

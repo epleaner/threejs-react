@@ -1,15 +1,13 @@
 import ReactDOM from "react-dom";
-import React, { useRef, useState } from "react";
-import { Canvas, useFrame } from "react-three-fiber";
+import React from "react";
 
+import BaseScene from "Scene/Base";
 import Cube from "Mesh/Cube";
 
 ReactDOM.render(
-  <Canvas>
-    <ambientLight />
-    <pointLight position={[10, 10, 10]} />
+  <BaseScene>
     <Cube position={[-1.2, 0, 0]} />
     <Cube position={[1.2, 0, 0]} />
-  </Canvas>,
+  </BaseScene>,
   document.getElementById("root")
 );
