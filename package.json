@@ -7,7 +7,7 @@
   },
   "scripts": {
     "start": "webpack-dev-server --open --hot",
-    "build": "webpack --config webpack.config.js"
+    "build": "webpack --mode production"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
