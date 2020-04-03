@@ -1,5 +1,11 @@
 {
   "dependencies": {
     "three": "^0.115.0"
+  },
+  "scripts": {
+    "serve": "serve"
+  },
+  "devDependencies": {
+    "serve": "^11.3.0"
   }
 }
