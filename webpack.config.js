@@ -11,7 +11,7 @@ module.exports = {
   resolve: {
     alias: {
       Mesh: path.resolve(__dirname, "src/mesh/"),
-      Scene: path.resolve(__dirname, "src/scene/")
+      Canvas: path.resolve(__dirname, "src/canvas/")
     },
     extensions: [".js", ".jsx"]
   },

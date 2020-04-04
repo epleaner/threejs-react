@@ -1,13 +1,13 @@
 import ReactDOM from "react-dom";
 import React from "react";
 
-import BaseScene from "Scene/Base";
+import BaseCanvas from "Canvas/Base";
 import Cube from "Mesh/Cube";
 
 ReactDOM.render(
-  <BaseScene>
+  <BaseCanvas>
     <Cube position={[-1.2, 0, 0]} />
     <Cube position={[1.2, 0, 0]} />
-  </BaseScene>,
+  </BaseCanvas>,
   document.getElementById("root")
 );

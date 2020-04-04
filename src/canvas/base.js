@@ -3,8 +3,8 @@ import { Canvas } from "react-three-fiber";
 
 export default ({ children, ...otherProps }) => (
   <Canvas {...otherProps}>
-    <ambientLight />
-    <pointLight position={[10, 10, 10]} />
+    <ambientLight intensity={0.9} />
+    <pointLight intensity={1.1} position={[10, 10, 10]} />
     {children}
   </Canvas>
 );
