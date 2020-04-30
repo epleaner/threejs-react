@@ -1,5 +1,7 @@
 import * as THREE from 'three/build/three.module.js';
 
+const SUPPORT_HD_DPI = true;
+
 function main() {
   const canvas = document.querySelector('#c');
   const renderer = new THREE.WebGLRenderer({ canvas });
@@ -40,8 +42,28 @@ function main() {
     makeShape(geometry, 0xaa8844, 2),
   ];
 
+  function updateCanvasAspectRatio() {
+    const canvas = renderer.domElement;
+    camera.aspect = canvas.clientWidth / canvas.clientHeight;
+    camera.updateProjectionMatrix();
+  }
+
+  function resizeRendererToDisplaySize(renderer) {
+    const canvas = renderer.domElement;
+    const pixelRatio = SUPPORT_HD_DPI ? window.devicePixelRatio : 1;
+    const width = (canvas.clientWidth * pixelRatio) | 0;
+    const height = (canvas.clientHeight * pixelRatio) | 0;
+    const needResize = canvas.width !== width || canvas.height !== height;
+
+    if (needResize) renderer.setSize(width, height, false);
+
+    return needResize;
+  }
+
   function render(time) {
     time *= 0.001;
+
+    if (resizeRendererToDisplaySize(renderer)) updateCanvasAspectRatio();
 
     cubes.forEach((cube, index) => {
       const speed = 1 + index * 0.1;
@@ -52,6 +74,7 @@ function main() {
     });
 
     renderer.render(scene, camera);
+
     requestAnimationFrame(render);
   }
 
