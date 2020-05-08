@@ -1,38 +1,60 @@
-import * as THREE from 'three/build/three.module.js';
-import '@styles/index.css';
+import * as THREE from '@three';
+import { OrbitControls } from '@three-controls/OrbitControls.js';
+import { GUI } from '@three-gui';
 
 import {
   resizeRendererToDisplaySize,
   updateCanvasAspectRatio,
 } from '@helpers/responsiveCanvas';
 
+import { scene as newScene } from '@factories/sceneFactory';
+
 import { perspectiveCamera } from '@factories/cameraFactory';
-import { directionalLight } from '@factories/lightFactory';
+import { cameraGui } from '@helpers/gui/cameraGui';
+
+import { pointLight } from '@factories/lightFactory';
+import { pointLightGui } from '@helpers/gui/lightGui';
+
+import { cube, sphere, plane } from '@factories/shapeFactory';
+
+import '@styles/index.css';
 
 function main() {
   const canvas = document.querySelector('#c');
   const renderer = new THREE.WebGLRenderer({ canvas });
+  const gui = new GUI();
+  const scene = newScene();
 
-  const camera = perspectiveCamera();
-  camera.position.z = 40;
+  renderer.physicallyCorrectLights = true;
 
-  const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0xf5f5f5);
+  const camera = perspectiveCamera({
+    fov: 45,
+    far: 100,
+  });
+  camera.position.set(0, 10, 20);
+  scene.add(camera.helper);
 
-  const light = directionalLight();
-  light.position.set(-1, 2, 4);
+  const controls = new OrbitControls(camera, canvas);
+  controls.target.set(0, 5, 0);
+  controls.update();
+
+  const groundPlane = plane();
+  scene.add(groundPlane);
+
+  scene.add(cube());
+  scene.add(sphere());
+
+  const { light, helper } = pointLight();
+  light.position.set(0, 10, 0);
   scene.add(light);
+  // scene.add(helper);
 
-  const objects = makeObjects();
-  scene.add(...objects);
+  cameraGui({ gui, camera });
+  pointLightGui({ gui, light });
 
-  function render(time) {
-    time *= 0.001;
-
+  function render() {
     if (resizeRendererToDisplaySize(renderer))
       updateCanvasAspectRatio(renderer, camera);
-
-    animate(objects, time);
 
     renderer.render(scene, camera);
 
@@ -40,60 +62,6 @@ function main() {
   }
 
   requestAnimationFrame(render);
-}
-
-function animate(objects, time) {
-  objects.forEach((object, index) => {
-    const speed = 0.5 + index * 0.1;
-    const rotation = object.isStill ? 0 : time * speed;
-
-    object.rotation.x = rotation;
-    object.rotation.y = rotation;
-  });
-}
-
-function points() {
-  const radius = 7;
-  const widthSegments = 12;
-  const heightSegments = 8;
-  const geometry = new THREE.SphereBufferGeometry(
-    radius,
-    widthSegments,
-    heightSegments
-  );
-  const material = new THREE.PointsMaterial({
-    color: 'red',
-    size: 0.2, // in world units
-  });
-  const points = new THREE.Points(geometry, material);
-
-  return points;
-}
-
-function lineGeometry() {
-  const radius = 7;
-  const widthSegments = 6;
-  const heightSegments = 3;
-  const sphereGeometry = new THREE.SphereBufferGeometry(
-    radius,
-    widthSegments,
-    heightSegments
-  );
-  const thresholdAngle = 1; // ui: thresholdAngle
-  const geometry = new THREE.EdgesGeometry(sphereGeometry, thresholdAngle);
-
-  const material = new THREE.LineBasicMaterial({ color: 0x000000 });
-  const mesh = new THREE.LineSegments(geometry, material);
-
-  return mesh;
-}
-
-function makeObjects() {
-  let objects = [];
-
-  objects.push(points(), lineGeometry());
-
-  return objects;
 }
 
 main();
