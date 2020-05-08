@@ -1,127 +1,53 @@
-import * as THREE from 'three/build/three.module.js';
+import * as THREE from '@three';
+import { OrbitControls } from '@three-controls/OrbitControls.js';
+import { GUI } from '@three-gui';
 
-const SUPPORT_HD_DPI = false;
+import {
+  resizeRendererToDisplaySize,
+  updateCanvasAspectRatio,
+} from '@helpers/responsiveCanvas';
+
+import { scene as newScene } from '@factories/sceneFactory';
+import { perspectiveCamera } from '@factories/cameraFactory';
+
+import { pointLight } from '@factories/lightFactory';
+import { pointLightGui } from '@helpers/gui/lightsGui';
+
+import '@styles/index.css';
+
+import checkerTexture from '@textures/checker.png';
 
 function main() {
   const canvas = document.querySelector('#c');
   const renderer = new THREE.WebGLRenderer({ canvas });
+  renderer.physicallyCorrectLights = true;
 
-  const fov = 40;
-  const aspect = 2; // the canvas default
-  const near = 0.1;
-  const far = 1000;
-  const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-  camera.position.z = 40;
+  const camera = perspectiveCamera({ fov: 45, far: 100 });
+  camera.position.set(0, 10, 20);
 
-  const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0xf5f5f5);
+  const controls = new OrbitControls(camera, canvas);
+  controls.target.set(0, 5, 0);
+  controls.update();
 
-  const color = 0xffffff;
-  const intensity = 1;
-  const light = new THREE.DirectionalLight(color, intensity);
-  light.position.set(-1, 2, 4);
+  const scene = newScene();
+
+  const groundPlane = plane();
+  scene.add(groundPlane);
+
+  scene.add(cube());
+  scene.add(sphere());
+
+  const { light, helper } = pointLight();
+  light.position.set(0, 10, 0);
   scene.add(light);
+  scene.add(helper);
 
-  let shapes = [];
+  const gui = new GUI();
+  pointLightGui({ gui, light });
 
-  const boxWidth = 1;
-  const boxHeight = 1;
-  const boxDepth = 1;
-  const geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
-
-  function makeShape(geometry, color, x) {
-    const material = new THREE.MeshPhongMaterial({ color });
-    const shape = new THREE.Mesh(geometry, material);
-    scene.add(shape);
-
-    shape.position.x = x;
-
-    return shape;
-  }
-
-  const cubes = [
-    makeShape(geometry, 0x44aa88, 0),
-    makeShape(geometry, 0x8844aa, -2),
-    makeShape(geometry, 0xaa8844, 2),
-  ];
-
-  shapes.push(...cubes);
-
-  function addPoints(scene) {
-    const radius = 7;
-    const widthSegments = 12;
-    const heightSegments = 8;
-    const geometry = new THREE.SphereBufferGeometry(
-      radius,
-      widthSegments,
-      heightSegments
-    );
-    const material = new THREE.PointsMaterial({
-      color: 'red',
-      size: 0.2, // in world units
-    });
-    const points = new THREE.Points(geometry, material);
-    scene.add(points);
-
-    return points;
-  }
-
-  function addLineGeometry(scene) {
-    const radius = 7;
-    const widthSegments = 6;
-    const heightSegments = 3;
-    const sphereGeometry = new THREE.SphereBufferGeometry(
-      radius,
-      widthSegments,
-      heightSegments
-    );
-    const thresholdAngle = 1; // ui: thresholdAngle
-    const geometry = new THREE.EdgesGeometry(sphereGeometry, thresholdAngle);
-
-    const material = new THREE.LineBasicMaterial({ color: 0x000000 });
-    const mesh = new THREE.LineSegments(geometry, material);
-
-    scene.add(mesh);
-
-    return mesh;
-  }
-
-  const points = addPoints(scene);
-  shapes.push(points);
-
-  const lineGeometry = addLineGeometry(scene);
-  shapes.push(lineGeometry);
-
-  function updateCanvasAspectRatio() {
-    const canvas = renderer.domElement;
-    camera.aspect = canvas.clientWidth / canvas.clientHeight;
-    camera.updateProjectionMatrix();
-  }
-
-  function resizeRendererToDisplaySize(renderer) {
-    const canvas = renderer.domElement;
-    const pixelRatio = SUPPORT_HD_DPI ? window.devicePixelRatio : 1;
-    const width = (canvas.clientWidth * pixelRatio) | 0;
-    const height = (canvas.clientHeight * pixelRatio) | 0;
-    const needResize = canvas.width !== width || canvas.height !== height;
-
-    if (needResize) renderer.setSize(width, height, false);
-
-    return needResize;
-  }
-
-  function render(time) {
-    time *= 0.001;
-
-    if (resizeRendererToDisplaySize(renderer)) updateCanvasAspectRatio();
-
-    shapes.forEach((cube, index) => {
-      const speed = 1 + index * 0.1;
-      const rotation = time * speed;
-
-      cube.rotation.x = rotation;
-      cube.rotation.y = rotation;
-    });
+  function render() {
+    if (resizeRendererToDisplaySize(renderer))
+      updateCanvasAspectRatio(renderer, camera);
 
     renderer.render(scene, camera);
 
@@ -129,6 +55,52 @@ function main() {
   }
 
   requestAnimationFrame(render);
+}
+
+function cube({ size = 4, color = '#8AC' } = {}) {
+  const geometry = new THREE.BoxBufferGeometry(size, size, size);
+  const material = new THREE.MeshStandardMaterial({ color });
+  const mesh = new THREE.Mesh(geometry, material);
+  mesh.position.set(size + 1, size / 2, 0);
+  return mesh;
+}
+
+function sphere({
+  radius = 3,
+  widthSegments = 32,
+  heightSegments = 16,
+  color = '#CA8',
+} = {}) {
+  const geometry = new THREE.SphereBufferGeometry(
+    radius,
+    widthSegments,
+    heightSegments
+  );
+  const material = new THREE.MeshStandardMaterial({ color });
+  const mesh = new THREE.Mesh(geometry, material);
+  mesh.position.set(-radius - 1, radius + 2, 0);
+  return mesh;
+}
+
+function plane(planeSize = 40) {
+  const loader = new THREE.TextureLoader();
+  const texture = loader.load(checkerTexture);
+  texture.wrapS = THREE.RepeatWrapping;
+  texture.wrapT = THREE.RepeatWrapping;
+  texture.magFilter = THREE.NearestFilter;
+  const repeats = planeSize / 2;
+  texture.repeat.set(repeats, repeats);
+
+  const geometry = new THREE.PlaneBufferGeometry(planeSize, planeSize);
+  const material = new THREE.MeshStandardMaterial({
+    map: texture,
+    side: THREE.DoubleSide,
+  });
+
+  const mesh = new THREE.Mesh(geometry, material);
+  mesh.rotation.x = Math.PI * -0.5;
+
+  return mesh;
 }
 
 main();
