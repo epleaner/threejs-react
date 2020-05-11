@@ -3,17 +3,20 @@ import DegRadHelper from '@helpers/gui/degRadHelper';
 import makeXYZGui from '@helpers/gui/makeXYZGui';
 
 export const spotLightGui = ({ gui, light }) => {
-  gui.addColor(new ColorGUIHelper(light, 'color'), 'value').name('color');
+  const folder = gui.addFolder('spot light');
 
-  gui.add(light, 'decay', 0, 4, 0.01);
-  gui.add(light, 'power', 0, 2000);
-  gui
+  folder.addColor(new ColorGUIHelper(light, 'color'), 'value').name('color');
+
+  folder.add(light, 'decay', 0, 4, 0.01);
+  folder.add(light, 'power', 0, 2000);
+  folder
     .add(new DegRadHelper(light, 'angle'), 'value', 0, 90)
     .name('angle')
     .onChange(light.update);
-  gui.add(light, 'penumbra', 0, 1, 0.01);
-  makeXYZGui(gui, light.position, 'position', light.update);
-  makeXYZGui(gui, light.target.position, 'target', light.update);
+  folder.add(light, 'penumbra', 0, 1, 0.01);
+  makeXYZGui(folder, light.position, 'position', light.update);
+  makeXYZGui(folder, light.target.position, 'target', light.update);
+  folder.open();
 };
 
 export const ambientLightGui = ({ gui, light }) => {
@@ -22,11 +25,14 @@ export const ambientLightGui = ({ gui, light }) => {
 };
 
 export const hemisphereLightGui = ({ gui, light }) => {
-  gui.addColor(new ColorGUIHelper(light, 'color'), 'value').name('skyColor');
-  gui
+  const folder = gui.addFolder('hemisphere light');
+
+  folder.addColor(new ColorGUIHelper(light, 'color'), 'value').name('skyColor');
+  folder
     .addColor(new ColorGUIHelper(light, 'groundColor'), 'value')
     .name('groundColor');
-  gui.add(light, 'intensity', 0, 2, 0.01);
+  folder.add(light, 'intensity', 0, 2, 0.01);
+  folder.open();
 };
 
 export const directionalLightGui = ({ gui, light }) => {
@@ -38,11 +44,13 @@ export const directionalLightGui = ({ gui, light }) => {
 };
 
 export const pointLightGui = ({ gui, light }) => {
-  gui.addColor(new ColorGUIHelper(light, 'color'), 'value').name('color');
-  gui.add(light, 'decay', 0, 4, 0.01);
-  gui.add(light, 'power', 0, 2000);
+  const folder = gui.addFolder('point light');
+  folder.addColor(new ColorGUIHelper(light, 'color'), 'value').name('color');
+  folder.add(light, 'decay', 0, 4, 0.01);
+  folder.add(light, 'power', 0, 8000);
 
-  makeXYZGui(gui, light.position, 'position', light.update);
+  makeXYZGui(folder, light.position, 'position', light.update);
+  folder.open();
 };
 
 export const rectAreaLightGui = ({ gui, light }) => {

@@ -1,4 +1,5 @@
 import MinMaxGuiHelper from '@helpers/gui/minMaxGuiHelper';
+import makeXYZGui from '@helpers/gui/makeXYZGui';
 
 export const cameraGui = ({ gui, camera }) => {
   camera.fov && gui.add(camera, 'fov', 1, 180).onChange(camera.update);
@@ -12,5 +13,6 @@ export const cameraGui = ({ gui, camera }) => {
     .name('far')
     .onChange(camera.update);
 
+  makeXYZGui(gui, camera.position, 'position', camera.update);
   camera.zoom && gui.add(camera, 'zoom', 0.01, 1, 0.01).listen();
 };

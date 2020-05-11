@@ -10,15 +10,15 @@ export const directionalLight = ({
   intensity = DEFAULT_INTENSITY,
 } = {}) => {
   const light = new THREE.DirectionalLight(color, intensity);
-  const helper = new THREE.DirectionalLightHelper(light);
+  light.helper = new THREE.DirectionalLightHelper(light);
 
   light.update = () => {
     light.target.updateMatrixWorld();
-    helper.update();
+    light.helper.update();
   };
 
   light.update();
-  return { light, helper };
+  return light;
 };
 
 export const ambientLight = ({
@@ -26,7 +26,7 @@ export const ambientLight = ({
   intensity = DEFAULT_INTENSITY,
 } = {}) => {
   const light = new THREE.AmbientLight(color, intensity);
-  return { light };
+  return light;
 };
 
 export const hemisphereLight = ({
@@ -35,8 +35,9 @@ export const hemisphereLight = ({
   intensity = DEFAULT_INTENSITY,
 } = {}) => {
   const light = new THREE.HemisphereLight(skyColor, groundColor, intensity);
-  const helper = new THREE.HemisphereLightHelper(light);
-  return { light, helper };
+  light.helper = new THREE.HemisphereLightHelper(light);
+
+  return light;
 };
 
 export const pointLight = ({
@@ -48,6 +49,7 @@ export const pointLight = ({
 } = {}) => {
   const light = new THREE.PointLight(color, intensity);
   const helper = new THREE.PointLightHelper(light);
+  light.helper = helper;
 
   light.power = power;
   light.decay = decay;
@@ -55,7 +57,7 @@ export const pointLight = ({
 
   light.update = () => helper.update();
 
-  return { light, helper };
+  return light;
 };
 
 export const spotLight = ({
@@ -66,7 +68,7 @@ export const spotLight = ({
   distance = Infinity,
 } = {}) => {
   const light = new THREE.SpotLight(color, intensity);
-  const helper = new THREE.SpotLightHelper(light);
+  light.helper = new THREE.SpotLightHelper(light);
 
   light.power = power;
   light.decay = decay;
@@ -74,10 +76,10 @@ export const spotLight = ({
 
   light.update = () => {
     light.target.updateMatrixWorld();
-    helper.update();
+    light.helper.update();
   };
 
-  return { light, helper };
+  return light;
 };
 
 export const rectAreaLight = ({
@@ -89,12 +91,12 @@ export const rectAreaLight = ({
   RectAreaLightUniformsLib.init();
 
   const light = new THREE.RectAreaLight(color, intensity, width, height);
-  const helper = new RectAreaLightHelper(light);
+  light.helper = new RectAreaLightHelper(light);
   light.add(helper);
 
-  light.update = () => helper.update();
+  light.update = () => light.helper.update();
 
   light.rotation.x = THREE.MathUtils.degToRad(-90);
 
-  return { light, helper };
+  return light;
 };
