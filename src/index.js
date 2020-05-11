@@ -82,7 +82,7 @@ main();
 
 function makeObjects(count = 10) {
   const objects = [];
-  const rotationSpeed = 100;
+  const rotationSpeed = 20;
 
   for (let i = 0; i < count; i++) {
     const innerRadius = 1 + i * 1.1;
@@ -106,6 +106,7 @@ function makeObjects(count = 10) {
     mesh.speed = 0.001 * i + 0.05;
 
     mesh.animate = (time) => {
+      const rotation = Math.abs(Math.sin(mesh.speed * time) * rotationSpeed);
       // if (
       //   (mesh.movingDown && mesh.position.z > count * 1.5) ||
       //   (!mesh.movingDown && mesh.position.z < -count * 1.5)
@@ -114,8 +115,8 @@ function makeObjects(count = 10) {
       //   mesh.speed *= -1;
       // }
       // mesh.position.z += mesh.speed;
-      mesh.rotation.x = mesh.speed * mesh.speed * time * rotationSpeed;
-      mesh.rotation.y = mesh.speed * mesh.speed * time * rotationSpeed;
+      mesh.rotation.x = rotation;
+      mesh.rotation.y = rotation;
     };
 
     objects.push(mesh);
