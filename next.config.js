@@ -19,6 +19,7 @@ module.exports = {
       '@helpers': path.resolve(__dirname, 'src/helpers/'),
       '@gui': path.resolve(__dirname, 'src/gui/'),
       '@factories': path.resolve(__dirname, 'src/factories/'),
+      '@components': path.resolve(__dirname, 'src/components/'),
     });
 
     config.resolve.alias = customAlias;
