@@ -21,7 +21,7 @@ const OrganismPage = () => {
   return (
     <Canvas camera={{ position: [0, 0, 85] }}>
       <CameraControls />
-      <ambientLight intensity={2} />
+      <ambientLight intensity={0.5} />
       <pointLight position={[40, 40, 40]} />
       <Suspense fallback={null}>
         <Organism ringCount={50} />
