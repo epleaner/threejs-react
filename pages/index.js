@@ -3,9 +3,9 @@ import Link from 'next/link';
 
 const Index = () => {
   return (
-    <main>
+    <main className='center-children h-screen'>
       <Link href='/organism'>
-        <a>Organism</a>
+        <a className='card grow'>Organism</a>
       </Link>
     </main>
   );

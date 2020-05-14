@@ -1,10 +1,38 @@
-html,
+@import 'tailwindcss/base';
+
 body {
-  margin: 0;
-  height: 100%;
+  @apply bg-red-500;
+  @apply m-0 p-0;
+  @apply w-full h-screen;
 }
+
 canvas {
-  width: 100%;
-  height: 100%;
-  display: block;
+  @apply w-full h-screen;
 }
+
+h1 {
+  @apply flex justify-center items-center;
+}
+
+a {
+  @apply text-gray-800 text-lg;
+}
+
+.center-children {
+  @apply flex justify-center items-center;
+}
+
+.card {
+  @apply bg-gray-200 rounded shadow-lg m-8 px-8 py-4;
+}
+
+.grow {
+  @apply transition duration-200 ease-in-out;
+}
+
+.grow:hover {
+  @apply shadow-2xl transform -translate-y-1 scale-110;
+}
+
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';

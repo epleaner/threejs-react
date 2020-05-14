@@ -20,6 +20,8 @@
     "three": "0.112.1"
   },
   "devDependencies": {
-    "deepmerge": "^4.2.2"
+    "deepmerge": "^4.2.2",
+    "postcss-preset-env": "^6.7.0",
+    "tailwindcss": "^1.4.6"
   }
 }

@@ -1,4 +1,4 @@
-import React, { useRef, useState, Suspense } from 'react';
+import React, { useRef, Suspense } from 'react';
 import { Canvas, useFrame, useThree, extend } from 'react-three-fiber';
 import { DoubleSide } from '@three';
 import { OrbitControls } from '@three-controls/OrbitControls.js';
