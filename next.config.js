@@ -14,10 +14,11 @@ module.exports = {
       ),
       '@three-modules': path.resolve('node_modules/three/examples/jsm'),
 
-      '@textures': path.resolve(__dirname, 'src/assets/textures/'),
-      '@styles': path.resolve(__dirname, 'src/assets/styles/'),
+      '@textures': path.resolve(__dirname, 'src/textures/'),
+      '@styles': path.resolve(__dirname, 'src/styles/'),
       '@helpers': path.resolve(__dirname, 'src/helpers/'),
-      '@factories': path.resolve(__dirname, 'src/helpers/factories/'),
+      '@gui': path.resolve(__dirname, 'src/gui/'),
+      '@factories': path.resolve(__dirname, 'src/factories/'),
     });
 
     config.resolve.alias = customAlias;
