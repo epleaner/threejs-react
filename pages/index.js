@@ -7,6 +7,9 @@ const Index = () => {
       <Link href='/organism'>
         <a className='card grow'>Organism</a>
       </Link>
+      <Link href='/lotus'>
+        <a className='card grow'>Lotus</a>
+      </Link>
     </main>
   );
 };

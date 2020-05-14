@@ -20,7 +20,7 @@ const Torus = ({ radius, speed }) => {
         attach='geometry'
         args={[radius, tubeRadius, radialSegments, tubularSegments]}
       />
-      <meshPhongMaterial attach='material' color={0xffff00} />
+      <meshPhongMaterial attach='material' color={0xffffff} />
     </mesh>
   );
 };
