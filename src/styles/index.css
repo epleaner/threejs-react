@@ -1,7 +1,6 @@
 @import 'tailwindcss/base';
 
 body {
-  @apply bg-red-500;
   @apply m-0 p-0;
   @apply w-full h-screen;
 }
@@ -23,7 +22,7 @@ a {
 }
 
 .card {
-  @apply bg-gray-200 rounded shadow-lg mx-8 px-8 py-4;
+  @apply bg-gray-200 text-gray-900 rounded shadow-lg mx-8 px-8 py-4;
 }
 
 .grow {
