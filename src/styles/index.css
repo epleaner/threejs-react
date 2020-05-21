@@ -9,10 +9,6 @@ canvas {
   @apply w-full h-screen;
 }
 
-h1 {
-  @apply flex justify-center items-center;
-}
-
 a {
   @apply text-gray-800 text-lg;
 }
@@ -22,7 +18,7 @@ a {
 }
 
 .card {
-  @apply bg-gray-200 text-gray-900 rounded shadow-lg mx-8 px-8 py-4;
+  @apply flex justify-center items-center h-10 w-auto bg-gray-400 text-gray-900 rounded shadow-lg shadow-inner my-8 mr-8 px-8 py-8;
 }
 
 .grow {
