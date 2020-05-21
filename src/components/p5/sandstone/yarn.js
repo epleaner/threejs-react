@@ -3,8 +3,11 @@
 export default (p) => {
   const TAU = p.TAU;
   const period = 1 / 800;
-  let particles = [];
+  const colorRange = 50;
   const numParticles = 1000;
+
+  let particles = [];
+  let baseColor;
 
   p.setup = () => {
     p.createCanvas(window.innerWidth, window.innerHeight, p.WEBGL);
@@ -14,7 +17,7 @@ export default (p) => {
 
     p.background(360, 0, 0, 1);
 
-    initializeParticles();
+    init();
   };
 
   p.draw = () => {
@@ -23,7 +26,7 @@ export default (p) => {
 
       const v = p.noise(particle.x * period, particle.y * period);
 
-      p.fill(0, 0, 100, 0.05);
+      p.fill(baseColor + v * colorRange, 100, 70, 0.05);
       p.square(particle.x, particle.y, 1.5, 1.5);
 
       const a = v * 2 * p.PI + particle.a;
@@ -36,24 +39,25 @@ export default (p) => {
   p.windowResized = () => {
     p.resizeCanvas(window.innerWidth, window.innerHeight);
 
-    resetScene();
+    reset();
   };
 
   p.mouseClicked = () => {
-    resetScene();
+    reset();
   };
 
-  const resetScene = () => {
+  const reset = () => {
     p.background(360, 0, 0, 1);
 
     p.noiseSeed(Math.random() * 10000);
 
     particles = [];
 
-    initializeParticles();
+    init();
   };
 
-  const initializeParticles = () => {
+  const init = () => {
+    baseColor = Math.random() * 360;
     const radius = (p.width + p.height) / 8;
 
     for (let i = 0; i < numParticles; i++) {
