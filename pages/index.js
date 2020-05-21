@@ -21,8 +21,8 @@ const Index = () => {
           <Link href='/sandstone'>
             <a className='card grow'>Sandstone 1</a>
           </Link>
-          <Link href='/sandstone-yarn'>
-            <a className='card grow'>Sandstone Yarn</a>
+          <Link href='/yarn'>
+            <a className='card grow'>Yarn</a>
           </Link>
           <Link href='/waves'>
             <a className='card grow'>Waves</a>
