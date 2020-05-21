@@ -12,10 +12,13 @@
     "start": "next start"
   },
   "dependencies": {
+    "@loadable/component": "^5.12.0",
     "drei": "^0.0.32",
     "next": "9.2.1",
+    "p5": "^1.0.0",
     "react": "16.12.0",
     "react-dom": "16.12.0",
+    "react-p5-wrapper": "^2.0.0",
     "react-three-fiber": "4.0.12",
     "three": "0.112.1",
     "tumult": "^3.0.14"

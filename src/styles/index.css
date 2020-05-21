@@ -23,7 +23,7 @@ a {
 }
 
 .card {
-  @apply bg-gray-200 rounded shadow-lg m-8 px-8 py-4;
+  @apply bg-gray-200 rounded shadow-lg mx-8 px-8 py-4;
 }
 
 .grow {

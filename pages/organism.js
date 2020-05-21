@@ -4,7 +4,7 @@ import { Canvas, useFrame, useThree, extend } from 'react-three-fiber';
 import { OrbitControls } from '@three-controls/OrbitControls.js';
 extend({ OrbitControls });
 
-import Organism from '@components/organism';
+import Organism from '@components/three/organism';
 
 const CameraControls = () => {
   const {

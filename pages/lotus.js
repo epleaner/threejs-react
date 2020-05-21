@@ -4,7 +4,7 @@ import { Canvas, useFrame, useThree, extend } from 'react-three-fiber';
 import { OrbitControls } from '@three-controls/OrbitControls.js';
 extend({ OrbitControls });
 
-import Lotus from '@components/lotus';
+import Lotus from '@components/three/lotus';
 
 const CameraControls = () => {
   const {

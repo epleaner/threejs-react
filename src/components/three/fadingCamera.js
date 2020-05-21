@@ -1,8 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import { useThree, useFrame } from 'react-three-fiber';
-import { Color } from '@three';
 
-const FadingCamera = ({ orthographic, ...otherProps }) => {
+const FadingCamera = (props) => {
   const group = useRef();
   const cameraRef = useRef();
   const { setDefaultCamera, viewport, gl } = useThree();
@@ -31,11 +30,7 @@ const FadingCamera = ({ orthographic, ...otherProps }) => {
 
   return (
     <group ref={group}>
-      {orthographic ? (
-        <orthographicCamera ref={cameraRef} {...otherProps} />
-      ) : (
-        <perspectiveCamera ref={cameraRef} {...otherProps} />
-      )}
+      <perspectiveCamera ref={cameraRef} {...props} />
       {fadeMesh}
     </group>
   );

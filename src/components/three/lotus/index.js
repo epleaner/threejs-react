@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { useFrame } from 'react-three-fiber';
 
-import Petal from '@components/petal';
+import Petal from '@components/three/lotus/petal';
 
 const Lotus = ({ petalCount }) => {
   const group = useRef();

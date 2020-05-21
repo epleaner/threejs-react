@@ -1,20 +1,10 @@
-import React, { Suspense } from 'react';
-import { Canvas } from 'react-three-fiber';
+import React from 'react';
+import loadable from '@loadable/component';
 
-import SandstoneParticles from '@components/sandstoneParticles';
-import FadingCamera from '@components/fadingCamera';
+import SandstoneParticles from '@components/p5/sandstone';
 
 const SandStonePage = () => {
-  return (
-    <Canvas gl={{ preserveDrawingBuffer: true }}>
-      <FadingCamera position={[0, 0, 50]} />
-      <ambientLight intensity={0.5} />
-      <pointLight position={[40, 40, 40]} />
-      <Suspense fallback={null}>
-        <SandstoneParticles count={200} />
-      </Suspense>
-    </Canvas>
-  );
+  const P5Wrapper = loadable(() => import('react-p5-wrapper'));
+  return <P5Wrapper sketch={SandstoneParticles} />;
 };
-
 export default SandStonePage;
