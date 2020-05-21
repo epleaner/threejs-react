@@ -1,10 +1,17 @@
-// inspired by https://josephg.com/perlin/3/
+// inspired by https://josephg.com/perlin/1/
 
 export default (p) => {
   const TAU = p.TAU;
-  const period = 1 / 800;
+  const period = 1 / 100;
+  const colorRange = 110;
+  const numParticles = 1000;
+
   let particles = [];
-  const numParticles = 2000;
+  let baseColor;
+
+  p.myCustomRedrawAccordingToNewPropsHandler = function ({ octaves, fallout }) {
+    p.noiseDetail(octaves, fallout);
+  };
 
   p.setup = () => {
     p.createCanvas(window.innerWidth, window.innerHeight, p.WEBGL);
@@ -14,7 +21,7 @@ export default (p) => {
 
     p.background(360, 0, 0, 1);
 
-    initializeParticles();
+    init();
   };
 
   p.draw = () => {
@@ -23,9 +30,7 @@ export default (p) => {
 
       const v = p.noise(particle.x * period, particle.y * period);
 
-      const hue = v * 360;
-
-      p.fill(hue, 95, 50, 0.05);
+      p.fill(baseColor + v * colorRange, 100, 50, 0.2);
       p.square(particle.x, particle.y, 1.5, 1.5);
 
       const a = v * 2 * p.PI + particle.a;
@@ -46,38 +51,35 @@ export default (p) => {
   p.windowResized = () => {
     p.resizeCanvas(window.innerWidth, window.innerHeight);
 
-    resetScene();
+    reset();
   };
 
   p.mouseClicked = () => {
-    resetScene();
+    reset();
   };
 
-  const resetScene = () => {
+  const reset = () => {
     p.background(360, 0, 0, 1);
 
     p.noiseSeed(Math.random() * 10000);
 
     particles = [];
 
-    initializeParticles();
+    init();
   };
 
-  const initializeParticles = () => {
-    const beginningRange = p.height;
+  const init = () => {
+    baseColor = 25;
 
     for (let i = 0; i < numParticles; i++) {
+      const direction = Math.floor(Math.random() * 5);
+
       const p1 = {
         x: Math.random() * p.width - p.width / 2,
-        y: 0 + Math.random() * beginningRange - beginningRange / 2,
-        a: 0,
+        y: Math.random() * p.height - p.height / 2,
+        a: (direction / 2) * TAU,
       };
       particles.push(p1);
-      particles.push({
-        x: p1.x,
-        y: p1.y,
-        a: TAU / 2,
-      });
     }
   };
 };
