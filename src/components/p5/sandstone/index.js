@@ -35,7 +35,17 @@ export default (p) => {
     }
   };
 
+  p.windowResized = () => {
+    p.resizeCanvas(window.innerWidth, window.innerHeight);
+
+    resetScene();
+  };
+
   p.mouseClicked = () => {
+    resetScene();
+  };
+
+  const resetScene = () => {
     p.background(360, 0, 0, 1);
 
     p.noiseSeed(Math.random() * 10000);
