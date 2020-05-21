@@ -1,10 +1,7 @@
 import React from 'react';
-import loadable from '@loadable/component';
+import P5Page from '@components/p5/p5Page';
+import Sandstone from '@components/p5/sandstone';
 
-import SandstoneParticles from '@components/p5/sandstone';
+const SandstonePage = () => <P5Page sketch={Sandstone} />;
 
-const SandStonePage = () => {
-  const P5Wrapper = loadable(() => import('react-p5-wrapper'));
-  return <P5Wrapper sketch={SandstoneParticles} />;
-};
-export default SandStonePage;
+export default SandstonePage;

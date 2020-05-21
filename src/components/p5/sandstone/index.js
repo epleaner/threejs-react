@@ -1,35 +1,65 @@
-export default function sketch(p) {
-  let yoff = 0;
-  const width = window.innerWidth;
-  const height = window.innerHeight;
+// inspired by https://josephg.com/perlin/3/
+
+export default (p) => {
+  const TAU = p.TAU;
+  const period = 1 / 800;
+  let particles = [];
+  const numParticles = 2000;
 
   p.setup = () => {
-    p.createCanvas(width, height, p.WEBGL);
-  };
-
-  p.myCustomRedrawAccordingToNewPropsHandler = function (props) {};
-
-  p.draw = function () {
-    p.background(51);
-    p.fill(255);
+    p.createCanvas(window.innerWidth, window.innerHeight, p.WEBGL);
+    p.colorMode(p.HSL);
+    p.rectMode(p.CENTER);
     p.noStroke();
 
-    p.beginShape();
-    p.vertex(-p.width / 2, p.height / 2);
+    p.background(360, 0, 0, 1);
 
-    let xoff = 0;
-
-    for (let x = -p.width / 2; x <= p.width / 2; x += 10) {
-      let y = p.map(p.noise(xoff, yoff), 0, 1, -50, 50);
-
-      p.vertex(x, y);
-
-      xoff += 0.05;
-    }
-
-    yoff += 0.01;
-
-    p.vertex(p.width / 2, p.height / 2);
-    p.endShape('close');
+    initializeParticles();
   };
-}
+
+  p.draw = () => {
+    for (let i = 0; i < particles.length; i++) {
+      const particle = particles[i];
+
+      const v = p.noise(particle.x * period, particle.y * period);
+
+      const hue = v * 360;
+
+      p.fill(hue, 95, 50, 0.05);
+      p.square(particle.x, particle.y, 1.5, 1.5);
+
+      const a = v * 2 * p.PI + particle.a;
+
+      particle.x += Math.cos(a);
+      particle.y += Math.sin(a);
+    }
+  };
+
+  p.mouseClicked = () => {
+    p.background(360, 0, 0, 1);
+
+    p.noiseSeed(Math.random() * 10000);
+
+    particles = [];
+
+    initializeParticles();
+  };
+
+  const initializeParticles = () => {
+    const beginningRange = p.height;
+
+    for (let i = 0; i < numParticles; i++) {
+      const p1 = {
+        x: Math.random() * p.width - p.width / 2,
+        y: 0 + Math.random() * beginningRange - beginningRange / 2,
+        a: 0,
+      };
+      particles.push(p1);
+      particles.push({
+        x: p1.x,
+        y: p1.y,
+        a: TAU / 2,
+      });
+    }
+  };
+};
