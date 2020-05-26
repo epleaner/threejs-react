@@ -6,11 +6,11 @@ const Bark = ({
   x: startX,
   y: startY,
   z: startZ,
+  amplitude = 1,
+  period = 1,
+  noisePeriod = 1,
   height,
   detail = 1000,
-  displacement = 4,
-  dampness = 0.05,
-  period = 0.2,
   noiseGen,
 }) => {
   const mesh = useRef();
@@ -26,14 +26,13 @@ const Bark = ({
     let curvePositions = [new Vector3(x, y, z)];
 
     while (y < height) {
-      y += 0.1;
+      y++;
 
-      const v = noiseGen.gen(x * period, y * period, z * period);
-      const a =
-        v * 2 * Math.PI + Math.PI / Math.ceil(Math.random() * displacement);
+      const v = noiseGen.gen(x * noisePeriod, y * noisePeriod, z * noisePeriod);
+      const a = v * 2 * Math.PI;
 
-      x += Math.cos(a) * dampness;
-      z += Math.sin(a) * dampness;
+      x += amplitude * Math.sin(period * a);
+      z += amplitude * Math.cos(period * a);
 
       curvePositions.push(new Vector3(x, y, z));
     }
@@ -44,6 +43,8 @@ const Bark = ({
 
     positionVectors.forEach(({ x, y, z }) => {
       positions.push(x, y, z);
+      colors.push(new Color(0xff0000));
+      colors.push(new Color(0xff0000));
       colors.push(new Color(0xff0000));
     });
 
@@ -63,7 +64,7 @@ const Bark = ({
           attachObject={['attributes', 'color']}
           count={colors.length}
           array={colors}
-          itemSize={1}
+          itemSize={3}
         />
       </bufferGeometry>
       <lineBasicMaterial

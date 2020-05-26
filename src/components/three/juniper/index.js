@@ -1,14 +1,14 @@
 import React, { useRef, useMemo } from 'react';
 import { useFrame } from 'react-three-fiber';
-import { Simplex2 } from 'tumult';
+import tumult from 'tumult';
 
 import Bark from '@components/three/juniper/bark';
 
-const Juniper = ({ count = 100 }) => {
+const Juniper = ({ count = 1 }) => {
   const group = useRef();
   useFrame(() => {});
 
-  const simplex = useMemo(() => new Simplex2(), []);
+  const simplex = useMemo(() => new tumult.Simplex2(), []);
 
   const children = useMemo(() => {
     const radius = 0.1;
