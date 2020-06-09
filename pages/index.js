@@ -20,7 +20,7 @@ const Index = () => {
           <h1 className='text-6xl text-gray-400'>2D</h1>
           <nav className='grid grid-cols-2 mt-4'>
             <Link href='/sandstone'>
-              <a className='card grow'>Sandstone 1</a>
+              <a className='card grow'>Sandstone</a>
             </Link>
             <Link href='/yarn'>
               <a className='card grow'>Yarn</a>
