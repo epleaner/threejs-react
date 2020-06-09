@@ -7,6 +7,7 @@ body {
 
 canvas {
   @apply w-full h-screen;
+  outline: none;
 }
 
 a {
