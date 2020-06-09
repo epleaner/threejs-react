@@ -8,11 +8,14 @@ const Index = () => {
         <section className='lg:mx-10 mx-4'>
           <h1 className='text-6xl text-gray-400'>3D</h1>
           <nav className='grid grid-cols-2 mt-4'>
+            <Link href='/pacific'>
+              <a className='card grow'>pacific</a>
+            </Link>
             <Link href='/organism'>
-              <a className='card grow'>Organism</a>
+              <a className='card grow'>organism</a>
             </Link>
             <Link href='/lotus'>
-              <a className='card grow'>Lotus</a>
+              <a className='card grow'>lotus</a>
             </Link>
           </nav>
         </section>
@@ -20,19 +23,19 @@ const Index = () => {
           <h1 className='text-6xl text-gray-400'>2D</h1>
           <nav className='grid grid-cols-2 mt-4'>
             <Link href='/sandstone'>
-              <a className='card grow'>Sandstone</a>
+              <a className='card grow'>sandstone</a>
             </Link>
             <Link href='/yarn'>
-              <a className='card grow'>Yarn</a>
+              <a className='card grow'>yarn</a>
             </Link>
             <Link href='/roots'>
-              <a className='card grow'>Roots</a>
+              <a className='card grow'>roots</a>
             </Link>
             <Link href='/treebeard'>
-              <a className='card grow'>Treebeard</a>
+              <a className='card grow'>treebeard</a>
             </Link>
             <Link href='/waves'>
-              <a className='card grow'>Waves</a>
+              <a className='card grow'>waves</a>
             </Link>
           </nav>
         </section>
