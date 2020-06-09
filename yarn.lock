@@ -855,7 +855,14 @@
   dependencies:
     regenerator-runtime "^0.13.2"
 
-"@babel/runtime@^7.3.1", "@babel/runtime@^7.7.7", "@babel/runtime@^7.8.4", "@babel/runtime@^7.9.2":
+"@babel/runtime@^7.10.2":
+  version "7.10.2"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.10.2.tgz#d103f21f2602497d38348a32e008637d506db839"
+  integrity sha512-6sF3uQw2ivImfVIl62RZ7MXhO2tap69WeWK57vAaimT6AZbE4FbqjdEJIN1UqoD6wI6B+1n9UiagafH1sxjOtg==
+  dependencies:
+    regenerator-runtime "^0.13.4"
+
+"@babel/runtime@^7.3.1", "@babel/runtime@^7.7.7", "@babel/runtime@^7.8.4":
   version "7.9.6"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.9.6.tgz#a9102eb5cadedf3f31d08a9ecf294af7827ea29f"
   integrity sha512-64AF1xY3OAkFHqOb9s4jpgk1Mm5vDZ4L3acHvAml+53nO1XbXLuDodsVpO4OIUsmemlUHMxNdYMNJmsvOwLrvQ==
@@ -1612,7 +1619,7 @@ braces@^2.3.1, braces@^2.3.2:
     split-string "^3.0.2"
     to-regex "^3.0.1"
 
-braces@~3.0.2:
+braces@^3.0.1, braces@~3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/braces/-/braces-3.0.2.tgz#3454e1a462ee8d599e236df336cd9ea4f8afe107"
   integrity sha512-b8um+L1RzM3WDSzvhm6gIz1yfTbBt6YTlcEKAvsmqCZZFw46z626lVj9j1yEPW33H5H+lBQpZMP1k8l+78Ha0A==
@@ -2464,15 +2471,18 @@ dot-prop@^5.0.0:
   dependencies:
     is-obj "^2.0.0"
 
-drei@^0.0.32:
-  version "0.0.32"
-  resolved "https://registry.yarnpkg.com/drei/-/drei-0.0.32.tgz#1d3a1a94a3dc05f256390377046189bcdb67d5ef"
-  integrity sha512-QBmQHNQh6kKJR2f6xswxmvhGDOUGOAFhw1+F40o/6WA+6XrEGOFKuko/cKaxsCsAXGS/cAmgUc+3WmXgaqejew==
+drei@^0.0.56:
+  version "0.0.56"
+  resolved "https://registry.yarnpkg.com/drei/-/drei-0.0.56.tgz#244970956158fbcf7b187921b9f09fe600e51ff0"
+  integrity sha512-/CJricFyoirCosF5TtFwWCN714jwPqPMmAXjXlVaSEf3lo/9cgPSHN0C4RWYsHId9mFxsbZAXWGoRK4AytLk8g==
   dependencies:
-    "@babel/runtime" "^7.9.2"
-    postprocessing "^6.13.3"
+    "@babel/runtime" "^7.10.2"
+    lodash.omit "^4.5.0"
+    lodash.pick "^4.4.0"
+    postprocessing "^6.14.0"
     react-merge-refs "^1.0.0"
     stats.js "^0.17.0"
+    troika-3d-text "^0.27.1"
     utility-types "^3.10.0"
 
 duplexer@^0.1.1:
@@ -3525,6 +3535,11 @@ launch-editor@2.2.1:
     chalk "^2.3.0"
     shell-quote "^1.6.1"
 
+lerp@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/lerp/-/lerp-1.0.3.tgz#a18c8968f917896de15ccfcc28d55a6b731e776e"
+  integrity sha1-oYyJaPkXiW3hXM/MKNVaa3Med24=
+
 load-json-file@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/load-json-file/-/load-json-file-2.0.0.tgz#7947e42149af80d696cbf797bcaabcfe1fe29ca8"
@@ -3590,6 +3605,16 @@ lodash.curry@4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/lodash.curry/-/lodash.curry-4.1.1.tgz#248e36072ede906501d75966200a86dab8b23170"
   integrity sha1-JI42By7ekGUB11lmIAqG2riyMXA=
+
+lodash.omit@^4.5.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/lodash.omit/-/lodash.omit-4.5.0.tgz#6eb19ae5a1ee1dd9df0b969e66ce0b7fa30b5e60"
+  integrity sha1-brGa5aHuHdnfC5aeZs4Lf6MLXmA=
+
+lodash.pick@^4.4.0:
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/lodash.pick/-/lodash.pick-4.4.0.tgz#52f05610fff9ded422611441ed1fc123a03001b3"
+  integrity sha1-UvBWEP/53tQiYRRB7R/BI6AwAbM=
 
 lodash.template@^4.5.0:
   version "4.5.0"
@@ -3746,6 +3771,14 @@ micromatch@^3.1.10, micromatch@^3.1.4:
     regex-not "^1.0.0"
     snapdragon "^0.8.1"
     to-regex "^3.0.2"
+
+micromatch@^4.0.2:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/micromatch/-/micromatch-4.0.2.tgz#4fcb0999bf9fbc2fcbdd212f6d629b9a56c39259"
+  integrity sha512-y7FpHSbMUMoyPbYUSzO6PaZ6FyRnQOpHuKwbo1G+Knck95XVU4QAiKdGEnj5wwoS7PlOgthX/09u5iFJ+aYf5Q==
+  dependencies:
+    braces "^3.0.1"
+    picomatch "^2.0.5"
 
 miller-rabin@^4.0.0:
   version "4.0.1"
@@ -3916,10 +3949,23 @@ neo-async@^2.5.0, neo-async@^2.6.0, neo-async@^2.6.1:
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.1.tgz#ac27ada66167fa8849a6addd837f6b189ad2081c"
   integrity sha512-iyam8fBuCUpWeKPGpaNMetEocMt364qkCsfL9JuhjXX6dRnguRVOfk2GZaDpPjcOKiiXCPINZC1GczQ7iTq3Zw==
 
+next-compose-plugins@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/next-compose-plugins/-/next-compose-plugins-2.2.0.tgz#95cd8eb40ab0652070d76572fb648354191628b0"
+  integrity sha512-ChUlpT9tWfJ7YxqGw/WQ2T1gf8EeX93n1XqeQw0lkvGa7seszahvF4eOZUJoq7Hetsbzg4UHVnPoCXfXTyQR3g==
+
 next-tick@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
   integrity sha1-yobR/ogoFpsBICCOPchCS524NCw=
+
+next-transpile-modules@^3.3.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/next-transpile-modules/-/next-transpile-modules-3.3.0.tgz#90f197d1ceda2a2ce7a4f423b262320354456abf"
+  integrity sha512-QIaBunwtC9oNaluQvfJw5hv1uXSAlTzDCc7/FUxZw5Rnm0yo1HJjW6YodFvA+7Xm9k/2fZV2itF99vMBwTOUjQ==
+  dependencies:
+    micromatch "^4.0.2"
+    slash "^3.0.0"
 
 next@9.2.1:
   version "9.2.1"
@@ -4373,7 +4419,7 @@ pbkdf2@^3.0.3:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
-picomatch@^2.0.4, picomatch@^2.2.1:
+picomatch@^2.0.4, picomatch@^2.0.5, picomatch@^2.2.1:
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/picomatch/-/picomatch-2.2.2.tgz#21f333e9b6b8eaff02468f5146ea406d345f4dad"
   integrity sha512-q0M/9eZHzmr0AulXyPwNfZjtwZ/RBZlbN3K3CErVrk50T2ASYI7Bye0EvekFY3IP1Nt2DHu0re+V2ZHIpMkuWg==
@@ -4876,10 +4922,10 @@ postcss@^7.0.0, postcss@^7.0.11, postcss@^7.0.14, postcss@^7.0.16, postcss@^7.0.
     source-map "^0.6.1"
     supports-color "^6.1.0"
 
-postprocessing@^6.13.3:
-  version "6.13.5"
-  resolved "https://registry.yarnpkg.com/postprocessing/-/postprocessing-6.13.5.tgz#77f92cd5925b2e5a4951ae81ba5020abb6d331b1"
-  integrity sha512-txeM9PL1p5HgzE6agSLO1cT9TQyhoXn1Ogj9PkEjLNNbqI1Anv2PmUTevPR2CY9o93ET563T1jA8d75Bftw+lw==
+postprocessing@^6.14.0:
+  version "6.14.0"
+  resolved "https://registry.yarnpkg.com/postprocessing/-/postprocessing-6.14.0.tgz#8a3f69fbe899ecc89f9ebfda84c8ae6d53a56201"
+  integrity sha512-uqty2wpwvFSk8J2La1zoPj4cSBvZCHJfU6vNphvIYMMSupOw4kRwdTnGvv+tLzr53EybofPELOTbwdLvKLjxeg==
 
 prepend-http@^1.0.0:
   version "1.0.4"
@@ -5586,6 +5632,11 @@ simple-swizzle@^0.2.2:
   dependencies:
     is-arrayish "^0.3.1"
 
+slash@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/slash/-/slash-3.0.0.tgz#6539be870c165adbd5240220dbe361f1bc4d4634"
+  integrity sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==
+
 snapdragon-node@^2.0.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/snapdragon-node/-/snapdragon-node-2.1.1.tgz#6c175f86ff14bdb0724563e8f3c1b021a286853b"
@@ -6040,6 +6091,46 @@ traverse@0.6.6:
   version "0.6.6"
   resolved "https://registry.yarnpkg.com/traverse/-/traverse-0.6.6.tgz#cbdf560fd7b9af632502fed40f918c157ea97137"
   integrity sha1-y99WD9e5r2MlAv7UD5GMFX6pcTc=
+
+troika-3d-text@^0.27.1:
+  version "0.27.1"
+  resolved "https://registry.yarnpkg.com/troika-3d-text/-/troika-3d-text-0.27.1.tgz#d8c10c81b13e0d29924f2f418770f828f68f2cba"
+  integrity sha512-VYS7ab30KQimIkprmiGpGEfabjDdMyJFyVwHa35QJwr2eqv57juroURbn+ICcJHntsR31/8/N5fqiyXUCUU5FA==
+  dependencies:
+    troika-3d "^0.27.0"
+    troika-three-utils "^0.27.0"
+    troika-worker-utils "^0.27.0"
+
+troika-3d@^0.27.0:
+  version "0.27.0"
+  resolved "https://registry.yarnpkg.com/troika-3d/-/troika-3d-0.27.0.tgz#8bc6e54ae8cb0b049953d3cbf67caf0d9ff1c765"
+  integrity sha512-umGRFyrIrNy8umdTN4MXKGZWfnMcPYeg6hPZSYe0F+6JKRILpdbM+xIgT0PgOwVFw06vc1qhxWoG0zbSpJ2cOg==
+  dependencies:
+    troika-core "^0.27.0"
+    troika-three-utils "^0.27.0"
+
+troika-animation@^0.27.0:
+  version "0.27.0"
+  resolved "https://registry.yarnpkg.com/troika-animation/-/troika-animation-0.27.0.tgz#c5597e918a5ba788b887d4b2b2d836b231f6c0b9"
+  integrity sha512-9fn57PazRwusIctfHUVjfGrZNhVekFAtzB+MzbvAVXZX6PLaDGWTZXRRD3F86yxzvzAMrHDBZNbwnJJHJsj7jQ==
+
+troika-core@^0.27.0:
+  version "0.27.0"
+  resolved "https://registry.yarnpkg.com/troika-core/-/troika-core-0.27.0.tgz#991e92d7b7e9c6503579747633e4814635f665ec"
+  integrity sha512-EHkq0i4+QlywLSsfpaEpId4c9DWQj+E0Bw4XO05g8Lrx7c/+oIgsRj3P4he1a7WmO7noqPiYgd0Ag5gLvT2yIQ==
+  dependencies:
+    prop-types "^15.6.2"
+    troika-animation "^0.27.0"
+
+troika-three-utils@^0.27.0:
+  version "0.27.0"
+  resolved "https://registry.yarnpkg.com/troika-three-utils/-/troika-three-utils-0.27.0.tgz#00b9fddbde40965ef655c5b45a244cdbf58db016"
+  integrity sha512-QEdPUflZDdMlzraKdQtxmdo8apacjc90swOs6l9w8oqss38EIg4I0xHbTpsATrjtNc8iYImDPe5pJVRC3aHE5Q==
+
+troika-worker-utils@^0.27.0:
+  version "0.27.0"
+  resolved "https://registry.yarnpkg.com/troika-worker-utils/-/troika-worker-utils-0.27.0.tgz#94abaff8bb170f77e79a5a19decef0c8588d8aa4"
+  integrity sha512-jxAz69fhk/hT97QJOp3ggLM+DOabrzQjs7JriaRBD1TMG9yc344leB2FcjNvVRJLEmBIzvexneiPFtlzLEGnAQ==
 
 ts-pnp@^1.1.2:
   version "1.2.0"

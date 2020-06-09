@@ -1,7 +1,13 @@
 const path = require('path');
 const merge = require('deepmerge');
+const withPlugins = require('next-compose-plugins');
+const withTM = require('next-transpile-modules')([
+  'three',
+  'drei',
+  'react-three-gui',
+]);
 
-module.exports = {
+module.exports = withPlugins([withTM], {
   webpack: (config) => {
     const customAlias = merge(config.resolve.alias, {
       '@three': path.resolve('node_modules/three/build/three.module.js'),
@@ -26,4 +32,4 @@ module.exports = {
 
     return config;
   },
-};
+});
