@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
 import { Canvas } from 'react-three-fiber';
-import OrbitControls from '@components/three/controls';
+import { OrbitControls } from 'drei';
 import Content from '@components/three/fundamentals/heightMap';
 
 const Page = () => {

@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import { Canvas } from 'react-three-fiber';
 import RenderTarget from '@components/three/fundamentals/renderTarget';
-import OrbitControls from '@components/three/controls';
+import { OrbitControls } from 'drei';
 
 const Page = () => {
   return (

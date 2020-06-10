@@ -1,7 +1,8 @@
 import React, { Suspense } from 'react';
 import { Canvas } from 'react-three-fiber';
 // import { Controls, useControl } from 'react-three-gui';
-import OrbitControls from '@components/three/controls';
+import { OrbitControls } from 'drei';
+
 import Juniper from '@components/three/juniper';
 
 const JuniperPage = () => {
