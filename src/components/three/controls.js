@@ -32,8 +32,8 @@ export const FirstPerson = () => {
     <firstPersonControls
       ref={controls}
       args={[camera, gl.domElement]}
-      movementSpeed={1000}
-      lookSpeed={1}
+      movementSpeed={7000}
+      lookSpeed={2}
     />
   );
 };
