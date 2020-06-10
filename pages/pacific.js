@@ -1,4 +1,3 @@
-import dynamic from 'next/dynamic';
 import React, { Suspense } from 'react';
 import { Canvas } from 'react-three-fiber';
 import { Controls as GUI, useControl } from 'react-three-gui';
@@ -6,7 +5,7 @@ import { Sky, Stars } from 'drei';
 import Ocean from '@components/three/ocean';
 import { FirstPerson as FirstPersonControls } from '@components/three/controls';
 
-const Page = () => {
+export default () => {
   return (
     <>
       <Canvas camera={{ fov: 60, near: 1, far: 20000, position: [0, 100, 0] }}>
@@ -21,5 +20,3 @@ const Page = () => {
     </>
   );
 };
-
-export default dynamic(() => Promise.resolve(Page));
