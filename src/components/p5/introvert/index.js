@@ -1,13 +1,25 @@
 export default (p) => {
   let numSegments = 5,
     segLength = 40,
-    numPoints = 61,
+    numPoints = 20,
     points = [],
     x = [],
     y = [],
     angle = [],
     targetX,
-    targetY;
+    targetY,
+    randomize = false;
+
+  p.myCustomRedrawAccordingToNewPropsHandler = function ({
+    numSegments: newNumSegments,
+    segLength: newSegLength,
+    randomize: newRandomize,
+  }) {
+    numSegments = newNumSegments;
+    segLength = newSegLength;
+    randomize = newRandomize;
+    init();
+  };
 
   p.setup = () => {
     p.createCanvas(window.innerWidth, window.innerHeight, p.WEBGL);
@@ -73,6 +85,7 @@ export default (p) => {
   }
 
   const init = () => {
+    points = [];
     for (let t = 0; t < numPoints; t++) {
       const point = { x: [], y: [], angle: [] };
 
