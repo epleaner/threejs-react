@@ -1,14 +1,16 @@
 export default (p) => {
-  let numSegments = 5,
-    segLength = 40,
-    numPoints = 20,
+  let numSegments,
+    segLength,
+    numPoints = 61,
     points = [],
     x = [],
     y = [],
     angle = [],
     targetX,
     targetY,
-    randomize = false;
+    randomize = false,
+    r = 20,
+    boff = 0;
 
   p.myCustomRedrawAccordingToNewPropsHandler = function ({
     numSegments: newNumSegments,
@@ -23,13 +25,15 @@ export default (p) => {
 
   p.setup = () => {
     p.createCanvas(window.innerWidth, window.innerHeight, p.WEBGL);
-    p.stroke(255, 100);
+    p.colorMode(p.HSL, 360, 100, 100, 1);
+    p.strokeWeight(1);
 
     init();
   };
 
   p.draw = () => {
-    p.background(0);
+    const bhue = p.map(p.noise((boff += 0.01)), 0, 1, 0, 360);
+    p.background(bhue, 50, 70, 1);
 
     for (let t = 0; t < points.length; t++) {
       x = points[t].x;
@@ -51,13 +55,14 @@ export default (p) => {
   };
 
   function getHeartX(t) {
-    return 0.25 * (-p.pow(t, 2) + 40 * t + 1200) * p.sin((Math.PI * t) / 180);
+    return r * 16 * p.pow(p.sin(t), 3) - p.width / 2;
   }
 
   function getHeartY(t) {
     return (
-      -0.25 * (-p.pow(t, 2) + 40 * t + 1200) * p.cos((Math.PI * t) / 180) +
-      p.height / 4
+      -r *
+        (13 * p.cos(t) - 5 * p.cos(2 * t) - 2 * p.cos(3 * t) - p.cos(4 * t)) -
+      50
     );
   }
 
@@ -76,7 +81,6 @@ export default (p) => {
   }
 
   function segment(x, y, a, sw) {
-    p.strokeWeight(1);
     p.push();
     p.translate(x, y);
     p.rotate(a);
@@ -89,30 +93,16 @@ export default (p) => {
     for (let t = 0; t < numPoints; t++) {
       const point = { x: [], y: [], angle: [] };
 
-      let x1 = [],
-        x2 = [];
-
       for (let i = 0; i < numSegments; i++) {
-        x1.push(0);
-        x2.push(0);
+        point.x.push(0);
         point.y.push(0);
         point.angle.push(0);
       }
 
-      const hx = getHeartX(t);
-      const hy = getHeartY(t);
-
-      x1[numSegments - 1] = hx;
-      x2[numSegments - 1] = -hx;
-
-      point.y[numSegments - 1] = hy;
-
-      point.x = x1;
-
-      const point2 = { x: x2, y: point.y, angle: point.angle };
+      point.x[numSegments - 1] = getHeartX(t) + p.width / 2;
+      point.y[numSegments - 1] = getHeartY(t);
 
       points.push(point);
-      points.push(point2);
     }
   };
 };

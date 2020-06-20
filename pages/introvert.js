@@ -3,7 +3,7 @@ import P5Page from '@components/p5/p5Page';
 import Introvert from '@components/p5/introvert';
 
 const IntrovertPage = () => {
-  const [numSegments, setNumSegments] = useState(5);
+  const [numSegments, setNumSegments] = useState(15);
   const [segLength, setSegLength] = useState(40);
   const [randomize, setRandomize] = useState(false);
 

@@ -37,6 +37,12 @@ const Index = () => {
             <Link href='/waves'>
               <a className='card grow'>waves</a>
             </Link>
+            <Link href='/introvert'>
+              <a className='card grow'>introvert</a>
+            </Link>
+            <Link href='/lines'>
+              <a className='card grow'>lines</a>
+            </Link>
           </nav>
         </section>
         <footer className='mb-1 center-children absolute inset-x-0 bottom-0'>
