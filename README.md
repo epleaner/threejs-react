@@ -8,6 +8,7 @@ inspiration:
 - https://tylerxhobbs.com/
 - https://www.reddit.com/r/generative/
 - https://anokhee.github.io/landscapes-palette-generator/
+- https://bl.ocks.org/mbostock/1b64ec067fcfc51e7471d944f51f1611
 - plants:
 
   - https://en.wikipedia.org/wiki/Glossary_of_plant_morphology
