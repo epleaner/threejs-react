@@ -3,27 +3,26 @@ import PropTypes from 'prop-types';
 import { TransitionGroup } from 'react-transition-group';
 
 import { interval } from 'd3-timer';
-import { shuffle } from 'd3-array';
 
 import Letter from '@components/d3/letter';
 
-const Alphabet = () => {
-  const sentences = useMemo(
-    () =>
-      ['sentence 1', 'sentence 2', 'sentence 3', 'sentence 4'].map(
-        (sentence) => {
-          const letterIndex = {};
+const Alphabet = ({ poem }) => {
+  const sentences = useMemo(() => {
+    const sentences = [];
 
-          return sentence.split('').map((l) => {
-            letterIndex[l] === undefined
-              ? (letterIndex[l] = 0)
-              : letterIndex[l]++;
-            return { letter: l, index: letterIndex[l] };
-          });
-        }
-      ),
-    []
-  );
+    sentences.push(poem.title);
+    sentences.push(`by ${poem.author}`);
+    sentences.push(...poem.lines);
+
+    return sentences.map((sentence) => {
+      const letterIndex = {};
+
+      return sentence.split('').map((l) => {
+        letterIndex[l] === undefined ? (letterIndex[l] = 0) : letterIndex[l]++;
+        return { letter: l, index: letterIndex[l] };
+      });
+    });
+  }, []);
 
   const [alphabet, setAlphabet] = useState([]);
 
@@ -39,7 +38,7 @@ const Alphabet = () => {
   }, [sentences]);
 
   return (
-    <svg width='100%' height='100%' style={{ background: 'papayawhip' }}>
+    <svg width='100%' height='100%'>
       <g style={{ transform: 'translate(10%, 50%)' }}>
         <TransitionGroup component='g' enter={true} exit={true}>
           {alphabet.map(({ letter, index }, i) => (
