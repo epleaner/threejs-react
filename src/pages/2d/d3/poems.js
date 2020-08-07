@@ -14,10 +14,12 @@ const AlphabetPage = () => {
   };
 
   const getAuthorPoems = async (authors) => {
-    const author = authors[Math.floor(Math.random() * authors.length + 1)];
-    const res = await fetch(`https://poetrydb.org/author/${author}`);
-    const json = await res.json();
-    setAuthor({ name: author, poems: json });
+    if (authors.length) {
+      const author = authors[Math.floor(Math.random() * authors.length + 1)];
+      const res = await fetch(`https://poetrydb.org/author/${author}`);
+      const json = await res.json();
+      setAuthor({ name: author, poems: json });
+    }
   };
 
   useEffect(() => {
@@ -25,9 +27,7 @@ const AlphabetPage = () => {
   }, []);
 
   useEffect(() => {
-    if (authors.length) {
-      (async () => await getAuthorPoems(authors))();
-    }
+    (async () => await getAuthorPoems(authors))();
   }, [authors]);
 
   useEffect(() => {
@@ -39,8 +39,16 @@ const AlphabetPage = () => {
   }, [author]);
 
   return (
-    <div className='w-screen h-screen flex items-center justify-center bg-purple-200'>
-      {poem ? <Alphabet poem={poem} /> : <span>loading...</span>}
+    <div
+      onClick={() => getAuthorPoems(authors)}
+      className='w-screen h-screen flex items-center justify-center bg-purple-200'>
+      {poem ? (
+        <>
+          <Alphabet poem={poem} />
+        </>
+      ) : (
+        <span>loading...</span>
+      )}
     </div>
   );
 };

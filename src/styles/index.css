@@ -3,15 +3,23 @@
 body {
   @apply m-0 p-0;
   @apply w-full h-screen;
+  @apply bg-gray-700;
+  overscroll-behavior: none;
 }
 
 canvas {
-  @apply w-full h-screen;
-  outline: none;
+  @apply w-full h-screen outline-none block;
 }
 
 a {
   @apply text-gray-800 text-lg;
+}
+
+a,
+button,
+input,
+select {
+  pointer-events: auto;
 }
 
 .center-children {

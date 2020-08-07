@@ -3,6 +3,7 @@ import Link from 'next/link';
 
 const Index = () => {
   const projects2d = [
+    'd3/poems',
     'sandstone',
     'yarn',
     'roots',
