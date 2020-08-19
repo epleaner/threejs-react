@@ -49,11 +49,7 @@ const InsightGraph = () => {
       .force('y', forceY())
       .on('tick', ticked);
 
-    let link = svg
-      .append('g')
-      .attr('stroke', '#000')
-      .attr('stroke-width', 1.5)
-      .selectAll('line');
+    let link = svg.append('g').attr('stroke', '#000').selectAll('line');
 
     let node = svg
       .append('g')
@@ -90,7 +86,10 @@ const InsightGraph = () => {
                 .attr('data', (d) => d.data)
             );
 
-          link = link.data(links, (d) => [d.source, d.target]).join('line');
+          link = link
+            .data(links, (d) => [d.source, d.target])
+            .join('line')
+            .attr('opacity', (d) => 1 / d.weight);
 
           simulation.nodes(nodes);
           simulation.force('link').links(links);
@@ -120,12 +119,13 @@ const InsightGraph = () => {
 
       newData.nodes.push(newNode);
 
-      for (let prev of inputHistory) {
+      inputHistory.forEach((prev, ndx) =>
         newData.links.push({
           source: prev.id,
           target: newNode.id,
-        });
-      }
+          weight: ndx + 1,
+        })
+      );
 
       return newData;
     });
