@@ -17,12 +17,14 @@ import {
 } from 'd3-force';
 
 const InsightGraph = () => {
+  const [inputHistory, setInputHistory] = useState([]);
+  const [input, setInput] = useState('');
   const [chart, setChart] = useState();
   const [nextId, setNextId] = useState(1);
   const svgRef = useRef();
 
   const [chartData, setChartData] = useState({
-    nodes: [{ id: 0 }],
+    nodes: [],
     links: [],
   });
 
@@ -72,7 +74,6 @@ const InsightGraph = () => {
     setChart(
       Object.assign(select(svgRef.current).node(), {
         update({ nodes, links }) {
-          console.log(nodes, links);
           // Make a shallow copy to protect against mutation, while
           // recycling old nodes to preserve position and velocity.
           const old = new Map(node.data().map((d) => [d.id, d]));
@@ -86,6 +87,7 @@ const InsightGraph = () => {
                 .append('circle')
                 .attr('r', 8)
                 .attr('fill', (d) => color(d.id))
+                .attr('data', (d) => d.data)
             );
 
           link = link.data(links, (d) => [d.source, d.target]).join('line');
@@ -103,39 +105,52 @@ const InsightGraph = () => {
   }, [color]);
 
   useEffect(() => {
-    console.log('use effect', chart, chartData);
     if (chart) {
       chart.update(chartData);
     }
   }, [chart, chartData.nodes.length, chartData.links.length]);
 
-  useEffect(() => {
-    console.log('chart data changed', chartData);
-  }, [chartData]);
-
   const addItem = useCallback(() => {
+    if (inputHistory.length === 5) inputHistory.shift();
+
+    const id = nextId;
+
+    const newNode = { id, data: input };
+
     setChartData((prevData) => {
-      let newData = { nodes: prevData.nodes, links: prevData.links };
+      let newData = { ...prevData };
 
-      const id = nextId;
-      setNextId((id) => id + 1);
+      newData.nodes.push(newNode);
 
-      newData.links.push({
-        source: id,
-        target:
-          newData.nodes[Math.floor(Math.random() * newData.nodes.length)].id,
-      });
-      newData.nodes.push({ id });
+      for (let prev of inputHistory) {
+        newData.links.push({
+          source: prev.id,
+          target: id,
+        });
+      }
 
       return newData;
     });
-  }, [chart, nextId]);
+
+    inputHistory.push(newNode);
+    setInputHistory(inputHistory);
+    setInput('');
+    setNextId((id) => id + 1);
+  }, [chart, nextId, input, inputHistory]);
 
   return (
     <>
-      <button className='absolute' onClick={addItem}>
-        add
-      </button>
+      <div className='absolute'>
+        <div>
+          <input value={input} onChange={(e) => setInput(e.target.value)} />
+          <button onClick={addItem}>add</button>
+        </div>
+        <ul>
+          {inputHistory.map((i) => (
+            <li key={i.id}>{i.data}</li>
+          ))}
+        </ul>
+      </div>
       <main className='-5' ref={svgRef}></main>
     </>
   );
