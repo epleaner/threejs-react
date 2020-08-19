@@ -57,7 +57,7 @@ const InsightGraph = () => {
       .selectAll('circle');
 
     function ticked() {
-      circle.attr('cx', (d) => d.x).attr('cy', (d) => d.y);
+      circle.attr('transform', (d) => `translate(${d.x}, ${d.y})`);
 
       link
         .attr('x1', (d) => d.source.x)
