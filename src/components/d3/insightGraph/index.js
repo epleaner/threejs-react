@@ -12,13 +12,17 @@ import {
   forceSimulation,
   forceManyBody,
   forceLink,
+  forceCenter,
   forceX,
   forceY,
 } from 'd3-force';
 
 const InsightGraph = () => {
   const radius = 8;
-  const maxHistory = 5;
+  const maxHistory = 3;
+  const width = 600;
+  const height = 400;
+
   const [inputHistory, setInputHistory] = useState([]);
   const [input, setInput] = useState('');
   const [chart, setChart] = useState();
@@ -36,7 +40,7 @@ const InsightGraph = () => {
       .append('svg')
       .style('width', '100vw')
       .style('height', '100vh')
-      .attr('viewBox', [-300, -200, 600, 400]);
+      .attr('viewBox', [-width / 2, -height / 2, width, height]);
 
     const simulation = forceSimulation()
       .force('charge', forceManyBody().strength(-1000))
@@ -44,8 +48,9 @@ const InsightGraph = () => {
         'link',
         forceLink()
           .id((d) => d.id)
-          .distance(200)
+          .distance(100)
       )
+      .force('center', forceCenter())
       .force('x', forceX())
       .force('y', forceY())
       .on('tick', ticked);
@@ -75,7 +80,8 @@ const InsightGraph = () => {
 
           circle = circle
             .data(nodes, (d) => d.id)
-            .join((enter) => enter.append('g').attr('data', (d) => d.data));
+            .join('g')
+            .attr('data', (d) => d.data);
 
           circle
             .append('circle')
