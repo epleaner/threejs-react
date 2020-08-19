@@ -18,6 +18,7 @@ import {
 
 const InsightGraph = () => {
   const radius = 8;
+  const maxHistory = 5;
   const [inputHistory, setInputHistory] = useState([]);
   const [input, setInput] = useState('');
   const [chart, setChart] = useState();
@@ -94,7 +95,7 @@ const InsightGraph = () => {
           link = link
             .data(links, (d) => [d.source, d.target])
             .join('line')
-            .attr('opacity', (d) => d.weight / inputHistory.length);
+            .attr('opacity', (d) => 1 - d.weight / maxHistory);
 
           simulation.nodes(nodes);
           simulation.force('link').links(links);
@@ -115,27 +116,56 @@ const InsightGraph = () => {
   }, [chart, chartData.nodes.length, chartData.links.length]);
 
   const addItem = useCallback(() => {
-    if (inputHistory.length === 5) inputHistory.shift();
+    if (inputHistory.length === maxHistory) inputHistory.pop();
 
     const newNode = { id: input, data: input };
 
     setChartData((prevData) => {
       let newData = { ...prevData };
 
-      newData.nodes.push(newNode);
-
-      inputHistory.forEach((prev, ndx) =>
-        newData.links.push({
-          source: prev.id,
-          target: newNode.id,
-          weight: ndx + 1,
-        })
+      const inputAlreadyInGraph = prevData.nodes.some(
+        (e) => e.id === newNode.id
       );
+
+      if (!inputAlreadyInGraph) newData.nodes.push(newNode);
+
+      let updatedLinks = []; // keep track of which previous inputs have already been updated
+
+      inputHistory.forEach((prevInput, ndx) => {
+        if (
+          // don't need to update yourself
+          prevInput.id !== newNode.id &&
+          // only update links once
+          !updatedLinks.includes(prevInput.id)
+        ) {
+          // look through the links and update weight with average if we find a match
+          newData.links = newData.links.map((e) => {
+            if (
+              (e.source === prevInput.id && e.target === newNode.id) ||
+              (e.source === newNode.id && e.target === prevInput.id)
+            ) {
+              e.weight = (e.weight + ndx) / 2;
+              updatedLinks.push(prevInput.id);
+            }
+
+            return e;
+          });
+
+          // if we didn't update this link (meaning it didn't exist), create a link
+          if (!updatedLinks.includes(prevInput.id)) {
+            newData.links.push({
+              source: prevInput.id,
+              target: newNode.id,
+              weight: ndx,
+            });
+          }
+        }
+      });
 
       return newData;
     });
 
-    inputHistory.push(newNode);
+    inputHistory.unshift(newNode);
     setInputHistory(inputHistory);
     setInput('');
   }, [chart, input, inputHistory]);
@@ -150,8 +180,8 @@ const InsightGraph = () => {
           </button>
         </div>
         <ul>
-          {inputHistory.map((i) => (
-            <li key={i.id}>{i.data}</li>
+          {inputHistory.map((i, ndx) => (
+            <li key={i.id + ndx}>{i.data}</li>
           ))}
         </ul>
       </div>
