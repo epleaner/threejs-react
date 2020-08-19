@@ -113,9 +113,7 @@ const InsightGraph = () => {
   const addItem = useCallback(() => {
     if (inputHistory.length === 5) inputHistory.shift();
 
-    const id = nextId;
-
-    const newNode = { id, data: input };
+    const newNode = { id: nextId, data: input };
 
     setChartData((prevData) => {
       let newData = { ...prevData };
@@ -125,7 +123,7 @@ const InsightGraph = () => {
       for (let prev of inputHistory) {
         newData.links.push({
           source: prev.id,
-          target: id,
+          target: newNode.id,
         });
       }
 
