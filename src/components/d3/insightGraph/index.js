@@ -17,6 +17,7 @@ import {
 } from 'd3-force';
 
 const InsightGraph = () => {
+  const radius = 8;
   const [inputHistory, setInputHistory] = useState([]);
   const [input, setInput] = useState('');
   const [chart, setChart] = useState();
@@ -50,11 +51,7 @@ const InsightGraph = () => {
 
     let link = svg.append('g').attr('stroke', '#000').selectAll('line');
 
-    let circle = svg
-      .append('g')
-      .attr('stroke', '#fff')
-      .attr('stroke-width', 1.5)
-      .selectAll('circle');
+    let circle = svg.append('g').selectAll('g');
 
     function ticked() {
       circle.attr('transform', (d) => `translate(${d.x}, ${d.y})`);
@@ -77,13 +74,22 @@ const InsightGraph = () => {
 
           circle = circle
             .data(nodes, (d) => d.id)
-            .join((enter) =>
-              enter
-                .append('circle')
-                .attr('r', 8)
-                .attr('fill', (d) => color(d.id))
-                .attr('data', (d) => d.data)
-            );
+            .join((enter) => enter.append('g').attr('data', (d) => d.data));
+
+          circle
+            .append('circle')
+            .attr('r', 8)
+            .attr('stroke', '#fff')
+            .attr('stroke-width', 1.5)
+            .attr('fill', (d) => color(d.id));
+
+          circle
+            .append('text')
+            .text((d) => d.id)
+            .attr('fill', (d) => color(d.id))
+            .attr('dy', radius * 3)
+            .attr('font-size', '1rem')
+            .attr('text-anchor', 'middle');
 
           link = link
             .data(links, (d) => [d.source, d.target])
