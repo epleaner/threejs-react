@@ -20,7 +20,6 @@ const InsightGraph = () => {
   const [inputHistory, setInputHistory] = useState([]);
   const [input, setInput] = useState('');
   const [chart, setChart] = useState();
-  const [nextId, setNextId] = useState(1);
   const svgRef = useRef();
 
   const [chartData, setChartData] = useState({
@@ -51,14 +50,14 @@ const InsightGraph = () => {
 
     let link = svg.append('g').attr('stroke', '#000').selectAll('line');
 
-    let node = svg
+    let circle = svg
       .append('g')
       .attr('stroke', '#fff')
       .attr('stroke-width', 1.5)
       .selectAll('circle');
 
     function ticked() {
-      node.attr('cx', (d) => d.x).attr('cy', (d) => d.y);
+      circle.attr('cx', (d) => d.x).attr('cy', (d) => d.y);
 
       link
         .attr('x1', (d) => d.source.x)
@@ -72,11 +71,11 @@ const InsightGraph = () => {
         update({ nodes, links }) {
           // Make a shallow copy to protect against mutation, while
           // recycling old nodes to preserve position and velocity.
-          const old = new Map(node.data().map((d) => [d.id, d]));
+          const old = new Map(circle.data().map((d) => [d.id, d]));
           nodes = nodes.map((d) => Object.assign(old.get(d.id) || {}, d));
           links = links.map((d) => Object.assign({}, d));
 
-          node = node
+          circle = circle
             .data(nodes, (d) => d.id)
             .join((enter) =>
               enter
@@ -89,7 +88,7 @@ const InsightGraph = () => {
           link = link
             .data(links, (d) => [d.source, d.target])
             .join('line')
-            .attr('opacity', (d) => 1 / d.weight);
+            .attr('opacity', (d) => d.weight / inputHistory.length);
 
           simulation.nodes(nodes);
           simulation.force('link').links(links);
@@ -101,7 +100,7 @@ const InsightGraph = () => {
     return () => {
       select(svg).remove();
     };
-  }, [color]);
+  }, [color, inputHistory]);
 
   useEffect(() => {
     if (chart) {
@@ -112,7 +111,7 @@ const InsightGraph = () => {
   const addItem = useCallback(() => {
     if (inputHistory.length === 5) inputHistory.shift();
 
-    const newNode = { id: nextId, data: input };
+    const newNode = { id: input, data: input };
 
     setChartData((prevData) => {
       let newData = { ...prevData };
@@ -133,15 +132,16 @@ const InsightGraph = () => {
     inputHistory.push(newNode);
     setInputHistory(inputHistory);
     setInput('');
-    setNextId((id) => id + 1);
-  }, [chart, nextId, input, inputHistory]);
+  }, [chart, input, inputHistory]);
 
   return (
     <>
       <div className='absolute'>
         <div>
           <input value={input} onChange={(e) => setInput(e.target.value)} />
-          <button onClick={addItem}>add</button>
+          <button disabled={!input.length} onClick={addItem}>
+            add
+          </button>
         </div>
         <ul>
           {inputHistory.map((i) => (
