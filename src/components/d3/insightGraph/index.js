@@ -1,4 +1,10 @@
-import React, { useRef, useState, useEffect, useMemo } from 'react';
+import React, {
+  useRef,
+  useCallback,
+  useState,
+  useEffect,
+  useMemo,
+} from 'react';
 import { scaleOrdinal } from 'd3-scale';
 import { schemeTableau10 } from 'd3-scale-chromatic';
 import { select } from 'd3-selection';
@@ -12,7 +18,13 @@ import {
 
 const InsightGraph = () => {
   const [chart, setChart] = useState();
+  const [nextId, setNextId] = useState(1);
   const svgRef = useRef();
+
+  const [chartData, setChartData] = useState({
+    nodes: [{ id: 0 }],
+    links: [],
+  });
 
   const color = useMemo(() => scaleOrdinal(schemeTableau10), []);
 
@@ -58,8 +70,9 @@ const InsightGraph = () => {
     }
 
     setChart(
-      Object.assign(svg.node(), {
+      Object.assign(select(svgRef.current).node(), {
         update({ nodes, links }) {
+          console.log(nodes, links);
           // Make a shallow copy to protect against mutation, while
           // recycling old nodes to preserve position and velocity.
           const old = new Map(node.data().map((d) => [d.id, d]));
@@ -90,20 +103,39 @@ const InsightGraph = () => {
   }, [color]);
 
   useEffect(() => {
+    console.log('use effect', chart, chartData);
     if (chart) {
-      chart.update({
-        nodes: [{ id: 'a' }, { id: 'b' }, { id: 'c' }],
-        links: [
-          { source: 'a', target: 'b' },
-          { source: 'b', target: 'c' },
-          { source: 'c', target: 'a' },
-        ],
-      });
+      chart.update(chartData);
     }
-  }, [chart]);
+  }, [chart, chartData.nodes.length, chartData.links.length]);
+
+  useEffect(() => {
+    console.log('chart data changed', chartData);
+  }, [chartData]);
+
+  const addItem = useCallback(() => {
+    setChartData((prevData) => {
+      let newData = { nodes: prevData.nodes, links: prevData.links };
+
+      const id = nextId;
+      setNextId((id) => id + 1);
+
+      newData.links.push({
+        source: id,
+        target:
+          newData.nodes[Math.floor(Math.random() * newData.nodes.length)].id,
+      });
+      newData.nodes.push({ id });
+
+      return newData;
+    });
+  }, [chart, nextId]);
 
   return (
     <>
+      <button className='absolute' onClick={addItem}>
+        add
+      </button>
       <main className='-5' ref={svgRef}></main>
     </>
   );
