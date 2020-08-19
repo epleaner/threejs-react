@@ -18,25 +18,10 @@ const InsightGraph = () => {
 
   useEffect(() => {
     const svg = select(svgRef.current)
-      .append('div')
-      // Container class to make it responsive.
-      .classed('svg-container', true)
-      .attr('display', 'inline-block')
-      .attr('position', 'relative')
-      .attr('width', '100%')
-      .attr('padding-bottom', '100%')
-      .attr('vertical-align', 'top')
-      .attr('overflow', 'hidden')
       .append('svg')
-      // Class to make it responsive.
-      .classed('svg-content-responsive', true)
-      // Responsive SVG needs these 2 attributes and no width and height attr.
-      .attr('preserveAspectRatio', 'xMinYMin meet')
-      .attr('viewBox', '-300 -200 600 600')
-      .attr('display', 'inline-block')
-      .attr('position', 'absolute')
-      .attr('top', '10px')
-      .attr('left', '0');
+      .style('width', '100vw')
+      .style('height', '100vh')
+      .attr('viewBox', [-300, -200, 600, 400]);
 
     const simulation = forceSimulation()
       .force('charge', forceManyBody().strength(-1000))
@@ -117,7 +102,11 @@ const InsightGraph = () => {
     }
   }, [chart]);
 
-  return <main ref={svgRef}></main>;
+  return (
+    <>
+      <main className='-5' ref={svgRef}></main>
+    </>
+  );
 };
 
 export default InsightGraph;
