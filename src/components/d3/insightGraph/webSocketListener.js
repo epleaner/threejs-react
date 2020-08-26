@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 const SOCKET_STATUS = {
-  '0': 'Connecting',
+  '0': 'Attempting to connect...',
   '1': 'Open',
   '2': 'Closing',
   '3': 'Closed',
@@ -13,34 +13,35 @@ const WebSocketListener = ({ onMessage }) => {
   const [socketState, setSocketState] = useState('disconnected');
 
   useEffect(() => {
-    // Create WebSocket connection.
-    const socket = new WebSocket('ws://localhost:5678');
+    const connectToWebSocket = () => {
+      // Create WebSocket connection.
+      const socket = new WebSocket('ws://localhost:5678');
 
-    // Connection opened
-    socket.onopen = function (event) {
-      socket.send('Hello Server!');
-      setSocketState('connected');
+      socket.onopen = (event) => {
+        setSocketState('connected');
+      };
+
+      socket.onmessage = (event) => {
+        console.log('Message from server ', event.data);
+        onMessage(JSON.parse(event.data));
+      };
+
+      socket.onclose = (event) => {
+        console.log('Connection closed');
+        setSocketState('disconnected');
+
+        setTimeout(() => connectToWebSocket(), 1000);
+      };
+
+      socket.onerror = (error) => {
+        console.log('Error', error);
+        setSocketState('error');
+      };
+
+      setSocket(socket);
     };
 
-    // Listen for messages
-    socket.onmessage = function (event) {
-      console.log('Message from server ', event.data);
-      onMessage(JSON.parse(event.data));
-    };
-
-    // Connection opened
-    socket.onclose = function (event) {
-      console.log('Connection closed');
-      setSocketState('disconnected');
-    };
-
-    // Listen for messages
-    socket.onerror = function (error) {
-      console.log('Error', error);
-      setSocketState('error');
-    };
-
-    setSocket(socket);
+    connectToWebSocket();
 
     return () => {
       socket.close();
@@ -54,7 +55,7 @@ const WebSocketListener = ({ onMessage }) => {
         className={
           socketState === 'connected' ? 'text-green-400' : 'text-red-400'
         }>
-        {SOCKET_STATUS[socket.readyState]}
+        {socket && SOCKET_STATUS[socket.readyState]}
       </span>
     </div>
   );
