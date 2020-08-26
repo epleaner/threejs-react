@@ -29,7 +29,6 @@ const WebSocketListener = ({ onMessage }) => {
       socket.onclose = (event) => {
         console.log('Connection closed');
         setSocketState('disconnected');
-
         setTimeout(() => connectToWebSocket(), 1000);
       };
 
@@ -43,13 +42,11 @@ const WebSocketListener = ({ onMessage }) => {
 
     connectToWebSocket();
 
-    return () => {
-      socket.close();
-    };
+    return () => socket && socket.close();
   }, []);
 
   return (
-    <div>
+    <div className='absolute right-0 m-2'>
       Socket:{' '}
       <span
         className={
