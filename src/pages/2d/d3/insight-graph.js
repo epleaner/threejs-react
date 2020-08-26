@@ -1,11 +1,25 @@
-import InsightGraph from '@components/d3/insightGraph';
-import AudioIn from '@components/d3/insightGraph/audio';
+import { useState, useCallback } from 'react';
 
-const InsightGraphPage = () => (
-  <>
-    <AudioIn />
-    <InsightGraph />
-  </>
-);
+import InsightGraph from '@components/d3/insightGraph';
+import WebSocketListener from '@components/d3/insightGraph/webSocketListener';
+
+const InsightGraphPage = () => {
+  const [words, setWords] = useState([]);
+
+  const addWord = useCallback((newWord) => {
+    setWords((prevWords) => {
+      const newState = [...prevWords];
+      newState.push(newWord);
+      return newState;
+    });
+  }, []);
+
+  return (
+    <>
+      <WebSocketListener onMessage={addWord} />
+      <InsightGraph words={words} />
+    </>
+  );
+};
 
 export default InsightGraphPage;
