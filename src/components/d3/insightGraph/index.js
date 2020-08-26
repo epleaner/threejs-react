@@ -24,7 +24,6 @@ const InsightGraph = ({ words }) => {
   const height = 400;
 
   const [inputHistory, setInputHistory] = useState([]);
-  const [input, setInput] = useState('');
   const [chart, setChart] = useState();
   const svgRef = useRef();
 
@@ -183,77 +182,17 @@ const InsightGraph = ({ words }) => {
     setInputHistory(inputHistory);
   }, [inputHistory, words.length]);
 
-  const addItem = useCallback(() => {
-    if (inputHistory.length === maxHistory) inputHistory.pop();
-
-    const newNode = { id: input, data: input };
-
-    setChartData((prevData) => {
-      let newData = { ...prevData };
-
-      const inputAlreadyInGraph = prevData.nodes.some(
-        (e) => e.id === newNode.id
-      );
-
-      if (!inputAlreadyInGraph) newData.nodes.push(newNode);
-
-      let updatedLinks = []; // keep track of which previous inputs have already been updated
-
-      inputHistory.forEach((prevInput, ndx) => {
-        if (
-          // don't need to update yourself
-          prevInput.id !== newNode.id &&
-          // only update links once
-          !updatedLinks.includes(prevInput.id)
-        ) {
-          // look through the links and update weight with average if we find a match
-          newData.links = newData.links.map((e) => {
-            if (
-              (e.source === prevInput.id && e.target === newNode.id) ||
-              (e.source === newNode.id && e.target === prevInput.id)
-            ) {
-              e.weight = (e.weight + ndx) / 2;
-              updatedLinks.push(prevInput.id);
-            }
-
-            return e;
-          });
-
-          // if we didn't update this link (meaning it didn't exist), create a link
-          if (!updatedLinks.includes(prevInput.id)) {
-            newData.links.push({
-              source: prevInput.id,
-              target: newNode.id,
-              weight: ndx,
-            });
-          }
-        }
-      });
-
-      return newData;
-    });
-
-    inputHistory.unshift(newNode);
-    setInputHistory(inputHistory);
-    setInput('');
-  }, [chart, input, inputHistory]);
-
   return (
     <>
-      <div className='absolute'>
-        <div>
-          <input value={input} onChange={(e) => setInput(e.target.value)} />
-          <button disabled={!input.length} onClick={addItem}>
-            add
-          </button>
-        </div>
+      <div className='absolute m-2'>
+        Recent words:
         <ul>
           {inputHistory.map((i, ndx) => (
             <li key={i.id + ndx}>{i.data.transcription}</li>
           ))}
         </ul>
       </div>
-      <main className='-5' ref={svgRef}></main>
+      <main ref={svgRef}></main>
     </>
   );
 };
