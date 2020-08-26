@@ -17,9 +17,9 @@ import {
   forceY,
 } from 'd3-force';
 
-const InsightGraph = () => {
+const InsightGraph = ({ words }) => {
   const radius = 8;
-  const maxHistory = 3;
+  const maxHistory = 5;
   const width = 600;
   const height = 400;
 
@@ -121,6 +121,68 @@ const InsightGraph = () => {
     }
   }, [chart, chartData.nodes.length, chartData.links.length]);
 
+  useEffect(() => {
+    if (words.length === 0) return;
+
+    const newWord = words[words.length - 1];
+
+    if (newWord.error) return;
+
+    console.log('in graph effect, new word:', newWord);
+
+    if (inputHistory.length === maxHistory) inputHistory.pop();
+
+    const newNode = { id: newWord.transcription, data: newWord };
+
+    setChartData((prevData) => {
+      let newData = { ...prevData };
+
+      const newWordAlreadyInGraph = prevData.nodes.some(
+        (e) => e.id === newNode.id
+      );
+
+      if (!newWordAlreadyInGraph) newData.nodes.push(newNode);
+
+      let updatedLinks = []; // keep track of which previous inputs have already been updated
+
+      inputHistory.forEach((prevInput, ndx) => {
+        if (
+          // don't need to update yourself
+          prevInput.id !== newNode.id &&
+          // only update links once
+          !updatedLinks.includes(prevInput.id)
+        ) {
+          // look through the links and update weight with average if we find a match
+          newData.links = newData.links.map((e) => {
+            if (
+              (e.source === prevInput.id && e.target === newNode.id) ||
+              (e.source === newNode.id && e.target === prevInput.id)
+            ) {
+              e.weight = (e.weight + ndx) / 2;
+              updatedLinks.push(prevInput.id);
+            }
+
+            return e;
+          });
+
+          // if we didn't update this link (meaning it didn't exist), create a link
+          if (!updatedLinks.includes(prevInput.id)) {
+            newData.links.push({
+              source: prevInput.id,
+              target: newNode.id,
+              weight: ndx,
+            });
+          }
+        }
+      });
+
+      return newData;
+    });
+
+    inputHistory.unshift(newNode);
+    setInputHistory(inputHistory);
+  }, [inputHistory, words.length]);
+
   const addItem = useCallback(() => {
     if (inputHistory.length === maxHistory) inputHistory.pop();
 
@@ -187,7 +249,7 @@ const InsightGraph = () => {
         </div>
         <ul>
           {inputHistory.map((i, ndx) => (
-            <li key={i.id + ndx}>{i.data}</li>
+            <li key={i.id + ndx}>{i.data.transcription}</li>
           ))}
         </ul>
       </div>
