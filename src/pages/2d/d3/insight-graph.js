@@ -1,5 +1,11 @@
-import InsighGraph from '@components/d3/insightGraph';
+import InsightGraph from '@components/d3/insightGraph';
+import AudioIn from '@components/d3/insightGraph/audio';
 
-const InsightGraphPage = () => <InsighGraph />;
+const InsightGraphPage = () => (
+  <>
+    <AudioIn />
+    <InsightGraph />
+  </>
+);
 
 export default InsightGraphPage;
