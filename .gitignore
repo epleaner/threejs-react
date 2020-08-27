@@ -17,6 +17,7 @@
 
 # misc
 .DS_Store
+**/*/__pycache__
 
 # debug
 npm-debug.log*
