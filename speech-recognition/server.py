@@ -12,6 +12,7 @@ async def listen(websocket, path):
     while True:
         try:
             message = await loop.run_in_executor(_executor, listen_for_word)
+            print('sending message across', message)
             await websocket.send(message)
         except websockets.exceptions.ConnectionClosedOK:
             await websocket.close();

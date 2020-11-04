@@ -1,4 +1,4 @@
-import React, {
+import {
   useRef,
   useCallback,
   useState,
@@ -17,11 +17,14 @@ import {
   forceY,
 } from 'd3-force';
 
-const InsightGraph = ({ words }) => {
+const InsightGraph = ({ nodes }) => {
   const radius = 8;
   const maxHistory = 5;
   const width = 600;
   const height = 400;
+
+  const [showRecent, setShowRecent] = useState(false);
+  const toggleRecent = useCallback(() => setShowRecent((show) => !show), []);
 
   const [inputHistory, setInputHistory] = useState([]);
   const [chart, setChart] = useState();
@@ -112,7 +115,7 @@ const InsightGraph = ({ words }) => {
     return () => {
       select(svg).remove();
     };
-  }, [color, inputHistory]);
+  }, [color]);
 
   useEffect(() => {
     if (chart) {
@@ -121,9 +124,9 @@ const InsightGraph = ({ words }) => {
   }, [chart, chartData.nodes.length, chartData.links.length]);
 
   useEffect(() => {
-    if (words.length === 0) return;
+    if (nodes.length === 0) return;
 
-    const newWord = words[words.length - 1];
+    const newWord = nodes[nodes.length - 1];
 
     if (newWord.error) return;
 
@@ -180,17 +183,29 @@ const InsightGraph = ({ words }) => {
 
     inputHistory.unshift(newNode);
     setInputHistory(inputHistory);
-  }, [inputHistory, words.length]);
+  }, [inputHistory, nodes.length]);
 
   return (
     <>
-      <div className='absolute m-2'>
-        Recent words:
-        <ul>
-          {inputHistory.map((i, ndx) => (
-            <li key={i.id + ndx}>{i.data.transcription}</li>
-          ))}
-        </ul>
+      <div className='absolute m-2 text-gray-200'>
+        <label>
+          Show recent nodes
+          <input
+            className='mx-2'
+            type='checkbox'
+            value={showRecent}
+            onClick={toggleRecent}
+          />
+        </label>
+        {showRecent && (
+          <div>
+            <ul>
+              {inputHistory.map((i, ndx) => (
+                <li key={i.id + ndx}>{i.data.transcription}</li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
       <main ref={svgRef}></main>
     </>

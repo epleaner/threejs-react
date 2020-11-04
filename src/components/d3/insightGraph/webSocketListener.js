@@ -46,7 +46,7 @@ const WebSocketListener = ({ onMessage }) => {
   }, []);
 
   return (
-    <div className='absolute right-0 m-2'>
+    <div className='absolute right-0 m-2 text-gray-200'>
       Socket:{' '}
       <span
         className={
