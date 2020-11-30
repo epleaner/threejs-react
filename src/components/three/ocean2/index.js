@@ -1,14 +1,12 @@
 import * as THREE from '@three';
 
-import Stats from '@three-libs/stats.module.js';
-
 import { FirstPersonControls } from '@three-controls/FirstPersonControls.js';
 
 const textureUrl =
   'https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/water.jpg';
 
 export default () => {
-  let camera, controls, scene, renderer, stats;
+  let camera, controls, scene, renderer;
 
   let mesh, geometry, material, clock;
 
@@ -30,8 +28,8 @@ export default () => {
     clock = new THREE.Clock();
 
     scene = new THREE.Scene();
-    scene.background = new THREE.Color(0xaaccff);
-    scene.fog = new THREE.FogExp2(0xaaccff, 0.0007);
+    scene.background = new THREE.Color(0x000000);
+    scene.fog = new THREE.FogExp2(0x000000, 0.0007);
 
     geometry = new THREE.PlaneBufferGeometry(
       20000,
@@ -53,7 +51,7 @@ export default () => {
     texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
     texture.repeat.set(5, 5);
 
-    material = new THREE.MeshBasicMaterial({ color: 0x0044ff, map: texture });
+    material = new THREE.MeshBasicMaterial({ color: 0xffffff, map: texture });
 
     mesh = new THREE.Mesh(geometry, material);
     scene.add(mesh);
@@ -67,9 +65,6 @@ export default () => {
 
     controls.movementSpeed = 500;
     controls.lookSpeed = 0.1;
-
-    stats = new Stats();
-    document.body.appendChild(stats.dom);
 
     window.addEventListener('resize', onWindowResize, false);
   }
@@ -87,7 +82,6 @@ export default () => {
     requestAnimationFrame(animate);
 
     render();
-    stats.update();
   }
 
   function render() {

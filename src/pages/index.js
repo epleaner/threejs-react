@@ -11,8 +11,11 @@ const Index = () => {
     'waves',
     'introvert',
     'lines',
+    'edges/2',
+    'edges/3',
+    'sacred-geo/1',
   ];
-  const projects3d = ['pacific', 'organism', 'lotus', 'juniper'];
+  const projects3d = ['pacific2', 'organism', 'lotus', 'juniper'];
   return (
     <>
       <main className='bg-gray-900 min-h-screen grid grid-cols-1 lg:grid-cols-2'>

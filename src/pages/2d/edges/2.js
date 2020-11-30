@@ -84,11 +84,6 @@ export default () => {
       img_u8 = new jsfeat.matrix_t(640, 480, jsfeat.U8C1_t);
 
       options = setupOptions();
-      // gui = new dat.GUI();
-
-      // gui.add(options, 'blur_radius', 0, 4).step(1);
-      // gui.add(options, 'low_threshold', 1, 127).step(1);
-      // gui.add(options, 'high_threshold', 1, 127).step(1);
     }
 
     function tick() {

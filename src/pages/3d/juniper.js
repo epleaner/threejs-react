@@ -21,7 +21,7 @@ const JuniperPage = () => {
         </Suspense>
         <OrbitControls />
       </Canvas>
-      <Controls />
+      {/* <Controls /> */}
     </>
   );
 };

@@ -4,7 +4,7 @@ import tumult from 'tumult';
 
 import Bark from '@components/three/juniper/bark';
 
-const Juniper = ({ count = 1 }) => {
+const Juniper = ({ count = 25 }) => {
   const group = useRef();
   useFrame(() => {});
 
