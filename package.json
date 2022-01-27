@@ -35,7 +35,7 @@
     "react-three-fiber": "4.0.12",
     "react-three-gui": "^0.1.5",
     "react-transition-group": "^4.4.1",
-    "three": "0.112.1",
+    "three": "0.137.0",
     "tumult": "^3.0.14"
   },
   "devDependencies": {
